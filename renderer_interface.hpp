@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 class Entity;
-
+class Map;
 
 class RendererInterface {
   public :

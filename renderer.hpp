@@ -3,7 +3,7 @@
 
 #include "renderer_interface.hpp"
 #include "entity.hpp"
-
+#include "map.hpp"
 
 class Renderer : public RendererInterface{
   protected :
@@ -17,8 +17,13 @@ class Renderer : public RendererInterface{
 
     sf::RenderWindow& getWindow() {return *_window;};
 
+    void render(const Map& map);
+
     void displayEntity(const Entity& entity);
 
+
+    // ACCESSEURS
+    bool getIsOpen(){ return _window->isOpen();}
 };
 
 #endif

@@ -2,7 +2,7 @@
 #define ENTITY_H
 
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
 class Renderer;
 
 class Entity {
@@ -12,7 +12,7 @@ class Entity {
     sf::RectangleShape _shape;
 
   public :
-    virtual void display(Renderer& r) const =0;
+    virtual void display(Renderer& r) const =0 ;
 
     // ACCESSEURS
     const float& getX() const { return _position.x; }
@@ -23,6 +23,8 @@ class Entity {
     const sf::RectangleShape& getShape() const { return _shape; }
     sf::RectangleShape& getShape() { return _shape; }
 
+    //OPERATEURS
+    bool operator==(const Entity& e) const{ return _position.x==e.getX() && _position.y==e.getY() && _shape.getSize()==e.getShape().getSize();};
 };
 
 #endif

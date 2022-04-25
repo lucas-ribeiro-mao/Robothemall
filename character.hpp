@@ -3,13 +3,13 @@
 #include "entity.hpp"
 
 
-class Character : public Entity{
+class Character : virtual public Entity{
   protected:
     int _health;
 
   public:
     bool isDead() const {return _health<=0;}
-
+    virtual void display(Renderer& r) const =0;
 
     // ACCESSEURS
     const int& getHealth() const { return _health; }
