@@ -15,7 +15,7 @@ all: $(EXEC)
 $(EXEC) : main.o player.o renderer.o map.o
 	$(LD) $(LDFLAGS) player.o map.o main.o renderer.o -o $(EXEC) $(LIBS)
 
-player.o : player.cpp player.hpp renderer.hpp character.hpp entity.hpp
+player.o : player.cpp player.hpp renderer.hpp character.hpp
 	$(CPP) $(CPPFLAGS) -c player.cpp
 
 renderer.o : renderer.cpp renderer.hpp map.hpp renderer_interface.hpp
@@ -24,7 +24,7 @@ renderer.o : renderer.cpp renderer.hpp map.hpp renderer_interface.hpp
 map.o : map.cpp entity.hpp map.hpp
 	$(CPP) $(CPPFLAGS) -c map.cpp
 
-main.o: main.cpp renderer.hpp player.hpp map.hpp entity.hpp renderer_interface.hpp
+main.o: main.cpp renderer.hpp player.hpp map.hpp
 	$(CPP) $(CPPFLAGS) -c main.cpp
 
 #règles suplémentaires

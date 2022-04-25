@@ -47,6 +47,6 @@ void Renderer::render(const Map& map){
 
 void Renderer::displayEntity(const Entity& entity) {
   //TODO
-  std::cout<<"bien ouej boss";
+  //std::cout<<"bien ouej boss";
   this->getWindow().draw(entity.getShape());
 }

@@ -1,6 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "entity.hpp"
+
 #include "character.hpp"
 #include "renderer.hpp"
 #include "renderer_interface.hpp"

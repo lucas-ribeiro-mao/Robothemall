@@ -1,8 +1,7 @@
 #include "renderer.hpp"
 #include "player.hpp"
 #include "map.hpp"
-#include "entity.hpp"
-#include "renderer_interface.hpp"
+//#include "entity.hpp"
 #include <iostream>
 
 int main(){
@@ -14,8 +13,8 @@ int main(){
 
   std::cout << "Fermez la fenêtre pour continuer." <<  std::endl;
   std::cout<<"oh\n";
-  map->addEntity(*j1);
-  std::cout<<map->getEntityMap().front().getX();
+  map->addEntity(j1);
+  std::cout<<map->getEntityMap().front()->getX();
   std::cout<<"oh\n";
   while(renderer->getIsOpen()){
     renderer->waitForExit();
