@@ -11,8 +11,15 @@ class Entity {
     sf::RectangleShape _hitbox;
     sf::RectangleShape _shape;
 
+    int _ID;
+    static int serialID;
+
   public :
-    virtual void display(Renderer& r) const =0 ;
+    Entity(){_ID = nextID();}
+
+    virtual void display(Renderer& r) const =0;
+
+    static int nextID() { serialID++; return serialID; }
 
     // ACCESSEURS
     const float& getX() const { return _position.x; }

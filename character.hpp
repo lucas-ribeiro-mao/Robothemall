@@ -8,6 +8,7 @@ class Character : virtual public Entity{
     int _health;
     float _speed;
   public:
+    Character() : Entity() {};
     bool isDead() const {return _health<=0;}
     virtual void display(Renderer& r) const =0;
 

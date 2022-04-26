@@ -1,7 +1,8 @@
 #include "player.hpp"
 
-Player::Player(int playerID,int health, sf::Vector2f position, float speed){
-  _playerID = playerID;
+
+
+Player::Player(int health, sf::Vector2f position, float speed) : Character(){
   _health = health;
   _position = position;
   _hitbox = sf::RectangleShape(sf::Vector2f(50.0f,80.0f));
@@ -32,20 +33,22 @@ void Player::move(sf::Event event, sf::Time dt){
       break;
   }
 
-  if (up){
-    _hitbox.move(0.0f, -_speed*dt.asSeconds());
-    _shape.move(0.0f, -_speed*dt.asSeconds());
+// OPTIMISATION POSSIBLE SI TROP DE RETARD
+  float pospresX = _position.x;
+  float pospresY = _position.y;
+  if (up && _position.y>=0){
+    _position.y += -_speed*dt.asSeconds();
   }
-  if (down){
-    _hitbox.move(0.0f, _speed*dt.asSeconds());
-    _shape.move(0.0f, _speed*dt.asSeconds());
+  if (down && _position.y< 600 - _shape.getSize().y){
+    _position.y += _speed*dt.asSeconds();
   }
-  if (right){
-    _hitbox.move(_speed*dt.asSeconds(), 0.0f);
-    _shape.move(_speed*dt.asSeconds(), 0.0f);
+  if (right && _position.x<800 - _shape.getSize().x){
+    _position.x += _speed*dt.asSeconds();
   }
-  if (left){
-    _hitbox.move(-_speed*dt.asSeconds(), 0.0f);
-    _shape.move(-_speed*dt.asSeconds(), 0.0f);
+  if (left && _position.x>0){
+    _position.x += -_speed*dt.asSeconds();
   }
+
+  _hitbox.move(_position.x - pospresX, _position.y - pospresY);
+  _shape.move(_position.x - pospresX, _position.y - pospresY);
 }

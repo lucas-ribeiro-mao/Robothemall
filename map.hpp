@@ -21,7 +21,7 @@ class Map{
       const std::list<Entity*>& getEntityMap() const { return *entityMap; }
       std::list<Entity*>& getEntityMap() { return *entityMap; }
 
-
+      
 
 
 };
