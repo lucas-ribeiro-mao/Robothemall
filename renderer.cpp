@@ -17,22 +17,18 @@ Renderer::~Renderer()
 
 
 
-void Renderer::waitForExit()
+void Renderer::waitForExit(sf::Event event)
 {
   // check all the window's events that were triggered since the last iteration of the loop
-  sf::Event event;
-  while (_window->pollEvent(event))
-  {
-    switch (event.type){
-      // "close requested" event: we close the window
-      case sf::Event::Closed:
+  switch (event.type){
+    // "close requested" event: we close the window
+    case sf::Event::Closed:
+      _window->close();
+      break;
+    case sf::Event::KeyPressed:
+      if( event.key.code == sf::Keyboard::Escape)
         _window->close();
-        break;
-      case sf::Event::KeyPressed:
-        if( event.key.code == sf::Keyboard::Escape)
-          _window->close();
-        break;
-    }
+      break;
   }
 
 }

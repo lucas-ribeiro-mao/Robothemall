@@ -13,9 +13,7 @@ class Renderer : public RendererInterface{
     Renderer(const int width, const int heigth);
     ~Renderer();
 
-    void waitForExit();
-
-    sf::RenderWindow& getWindow() {return *_window;};
+    void waitForExit(sf::Event event);
 
     void render(const Map& map);
 
@@ -24,6 +22,9 @@ class Renderer : public RendererInterface{
 
     // ACCESSEURS
     bool getIsOpen(){ return _window->isOpen();}
+    
+    sf::RenderWindow& getWindow() {return *_window;};
+
 };
 
 #endif
