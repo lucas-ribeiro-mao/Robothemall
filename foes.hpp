@@ -9,6 +9,8 @@
 #include <cmath>
 
 class Foes : virtual public Character{
+  protected:
+    float swiftnessX,swiftnessY;
 
   public :
     Foes(int health, sf::Vector2f position, float speed);
