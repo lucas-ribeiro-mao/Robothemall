@@ -27,6 +27,8 @@ class Entity {
     const float& getY() const { return _position.y; }
     float& getY() { return _position.y; }
 
+    sf::Vector2f getCenter(){ return sf::Vector2f(_position.x+_shape.getSize().x/2,_position.y+_shape.getSize().y/2);}
+
     const sf::RectangleShape& getShape() const { return _shape; }
     sf::RectangleShape& getShape() { return _shape; }
 

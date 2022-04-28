@@ -4,6 +4,7 @@
 #include "character.hpp"
 #include "renderer.hpp"
 #include "renderer_interface.hpp"
+#include <cmath>
 #include <iostream>
 
 class Player : virtual public Character{

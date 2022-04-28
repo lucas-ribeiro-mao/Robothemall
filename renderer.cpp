@@ -1,6 +1,7 @@
 #include "renderer_interface.hpp"
 #include "renderer.hpp"
 #include <iostream>
+#include <typeinfo>
 
 
 
@@ -45,4 +46,11 @@ void Renderer::displayEntity(const Entity& entity) {
   //TODO
   //std::cout<<"bien ouej boss\n";
   this->getWindow().draw(entity.getShape());
+}
+
+void Renderer::displayEntity(const Character& entity) {
+  //TODO
+  //std::cout<<"bien ouej boss\n";
+  this->getWindow().draw(entity.getShape());
+  this->getWindow().draw(entity.getHealthBar()[0]);
 }

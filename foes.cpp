@@ -4,6 +4,9 @@ Foes::Foes( int health, sf::Vector2f position, float speed) : Character(){
   _health=health;
   _maxHealth=health;
   _position = position;
+
+
+
   _hitbox = sf::RectangleShape(sf::Vector2f(30.0f,30.0f));
   _hitbox.setPosition(position);
 
@@ -11,6 +14,8 @@ Foes::Foes( int health, sf::Vector2f position, float speed) : Character(){
   _shape.setPosition(position);
   _shape.setFillColor(sf::Color::Green);
 
+
+  this->setHealthBar();
   _speed = speed;
 
   swiftnessX = 0;
@@ -53,7 +58,7 @@ void Foes::move(Player j1, sf::Time dt){
 
 
 
-  float _acceleration=0.5f;
+  float _acceleration=0.2f;
   if(directionX>0){ if(swiftnessX<_speed) swiftnessX+=_acceleration;}
   else if(directionX<0){ if(swiftnessX>-_speed) swiftnessX-=_acceleration;}
 
@@ -68,11 +73,12 @@ void Foes::move(Player j1, sf::Time dt){
   _position.x+=swiftnessX*dt.asSeconds();
   _position.y+=swiftnessY*dt.asSeconds();
 
+  healthBar[0].move(swiftnessX*dt.asSeconds(), swiftnessY*dt.asSeconds());
   _hitbox.move(swiftnessX*dt.asSeconds(), swiftnessY*dt.asSeconds());
   _shape.move(swiftnessX*dt.asSeconds(), swiftnessY*dt.asSeconds());
 
 
 
-  std::cout<< swiftnessX<<"\n";
+  //std::cout<< swiftnessX<<"\n";
 
 }
