@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+class Character;
 class Entity;
 class Map;
 
