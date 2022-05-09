@@ -6,6 +6,8 @@
 #include "character.hpp"
 #include "map.hpp"
 
+using namespace std;
+
 class Renderer : public RendererInterface{
   protected :
     sf::RenderWindow* _window;

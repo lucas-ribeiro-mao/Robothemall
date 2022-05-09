@@ -7,7 +7,7 @@ Player::Player(int health, sf::Vector2f position, float speed) : Character(){
   _maxHealth=health;
   _position = position;
 
-
+  _type="Player";
 
   _hitbox = sf::RectangleShape(sf::Vector2f(50.0f,80.0f));
   _hitbox.setPosition(position);
@@ -21,7 +21,7 @@ Player::Player(int health, sf::Vector2f position, float speed) : Character(){
 }
 
 
-void Player::move(sf::Event event, sf::Time dt){
+void Player::move(sf::Event& event, sf::Time& dt, Map& map){
   switch(event.type){
     case sf::Event::KeyPressed:
       if(event.key.code == sf::Keyboard::Key::Z) up=true;
@@ -39,8 +39,7 @@ void Player::move(sf::Event event, sf::Time dt){
   }
 
 // OPTIMISATION POSSIBLE SI TROP DE RETARD
-  float pospresX = _position.x;
-  float pospresY = _position.y;
+  _prevPosition = _position;
   if (up && _position.y>=0){
     //if the player is mooving along 2 directions divide the speed by sqrt(2) to stay at the same speed
     if (right || left) _position.y += -_speed*dt.asSeconds()/sqrt(2);
@@ -59,7 +58,35 @@ void Player::move(sf::Event event, sf::Time dt){
     else _position.x += -_speed*dt.asSeconds();
   }
 
-  healthBar[0].move(_position.x - pospresX, _position.y - pospresY);
-  _hitbox.move(_position.x - pospresX, _position.y - pospresY);
-  _shape.move(_position.x - pospresX, _position.y - pospresY);
+  float deltaX = _position.x - _prevPosition.x;
+  float deltaY = _position.y - _prevPosition.y;
+
+  _hitbox.move(deltaX, deltaY);
+
+  bool canGo=true;
+
+  for (auto player : map.getPlayerMap()){
+    if ((*this).getID()!=player->getID())
+      if ((*this).collision(*player)){
+        canGo=false;
+        break;
+      }
+  }
+
+  if (canGo){
+    for (auto foes : map.getFoesMap()){
+      if ((*this).getID()!=foes->getID())
+        if ((*this).collision(*foes)){
+          canGo=false;
+          break;
+        }
+    }
+  }
+
+  if(!canGo){
+    _hitbox.move(-deltaX, -deltaY);
+    _position = _prevPosition;
+  }
+
+  updatePosition();
 }

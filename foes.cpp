@@ -4,8 +4,7 @@ Foes::Foes( int health, sf::Vector2f position, float speed) : Character(){
   _health=health;
   _maxHealth=health;
   _position = position;
-
-
+  _type = "Foes";
 
   _hitbox = sf::RectangleShape(sf::Vector2f(30.0f,30.0f));
   _hitbox.setPosition(position);
@@ -22,13 +21,17 @@ Foes::Foes( int health, sf::Vector2f position, float speed) : Character(){
   swiftnessY = 0;
 }
 
-void Foes::move(Player j1, sf::Time dt){
+void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
   float distj1,distj2;
   float directionX, directionY;
 
-  distj1=sqrt(pow(j1.getX(),2)+pow(j1.getY(),2));
+  // KNOWN AS PLAYER
+  // TO IMPROVE FOR REAL
+  Player *j1 = (*map.getPlayerMap().begin());
+
+  distj1=sqrt(pow(j1->getX(),2)+pow(j1->getY(),2));
   //distj2=sqrt(pow(j2.getX(),2)+pow(j2.getY(),2));
-  sf::Vector2f playerCenter = j1.getCenter();
+  sf::Vector2f playerCenter = j1->getCenter();
   sf::Vector2f foeCenter = this->getCenter();
   directionX = playerCenter.x - foeCenter.x;
   directionY = playerCenter.y - foeCenter.y;
@@ -59,26 +62,91 @@ void Foes::move(Player j1, sf::Time dt){
 
 
   float _acceleration=0.2f;
-  if(directionX>0){ if(swiftnessX<_speed) swiftnessX+=_acceleration;}
-  else if(directionX<0){ if(swiftnessX>-_speed) swiftnessX-=_acceleration;}
+  if(directionX>0 && swiftnessX<_speed){ swiftnessX+=_acceleration;}
+  else if(directionX<0 && swiftnessX>-_speed){ swiftnessX-=_acceleration;}
 
 
-  if(directionY>0){ if(swiftnessY<_speed) swiftnessY+=_acceleration;}
-  else if(directionY<0){ if(swiftnessY>-_speed) swiftnessY-=_acceleration;}
-
-
-
-
-
-  _position.x+=swiftnessX*dt.asSeconds();
-  _position.y+=swiftnessY*dt.asSeconds();
-
-  healthBar[0].move(swiftnessX*dt.asSeconds(), swiftnessY*dt.asSeconds());
-  _hitbox.move(swiftnessX*dt.asSeconds(), swiftnessY*dt.asSeconds());
-  _shape.move(swiftnessX*dt.asSeconds(), swiftnessY*dt.asSeconds());
+  if(directionY>0 && swiftnessY<_speed){ swiftnessY+=_acceleration;}
+  else if(directionY<0 && swiftnessY>-_speed){ swiftnessY-=_acceleration;}
 
 
 
-  //std::cout<< swiftnessX<<"\n";
+  _prevPosition=_position;
+
+  float deltaX = swiftnessX*dt.asSeconds();
+  float deltaY = swiftnessY*dt.asSeconds();
+
+//check the X position
+
+  sf::Vector2f posBreak;
+  sf::Vector2f sizeBreak;
+
+  _position.x+=deltaX;
+  _hitbox.setPosition(_position);
+  bool canGo=true;
+
+  for (auto player : map.getPlayerMap()){
+    if ((*this).getID()!=player->getID())
+      if ((*this).collision(*player)){
+        canGo=false;
+        posBreak=player->getCenter();
+        sizeBreak=player->getHitbox().getSize();
+        break;
+      }
+  }
+
+  if (canGo){
+    for (auto foes : map.getFoesMap()){
+      if ((*this).getID()!=foes->getID())
+        if ((*this).collision(*foes)){
+          canGo=false;
+          posBreak=foes->getCenter();
+          sizeBreak=foes->getHitbox().getSize();
+          break;
+        }
+    }
+  }
+
+  if(!canGo){
+    if(_position.x<posBreak.x)
+      _position.x = posBreak.x - sizeBreak.x/2 - _hitbox.getSize().x-1.0f;
+    _hitbox.setPosition(_position);
+  }
+    _prevPosition = _position;
+
+
+
+//check the Y deplacement
+  _position.y+=deltaY;
+  _hitbox.setPosition(_position);
+  canGo=true;
+
+  for (auto player : map.getPlayerMap()){
+    if ((*this).getID()!=player->getID())
+      if ((*this).collision(*player)){
+        canGo=false;
+        posBreak=player->getCenter();
+        sizeBreak=player->getHitbox().getSize();
+        break;
+      }
+  }
+
+  if (canGo){
+    for (auto foes : map.getFoesMap()){
+      if ((*this).getID()!=foes->getID())
+        if ((*this).collision(*foes)){
+          canGo=false;
+          posBreak=foes->getCenter();
+          sizeBreak=foes->getHitbox().getSize();
+          break;
+        }
+    }
+  }
+
+  if(!canGo){
+    _position.y = posBreak.y - sizeBreak.y/2 - _hitbox.getSize().y-1.0f;
+  }
+
+  updatePosition();
 
 }

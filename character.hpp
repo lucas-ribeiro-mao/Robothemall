@@ -2,9 +2,13 @@
 #define CHARACTER_H
 #include "entity.hpp"
 #include <vector>
+#include <list>
+
+using namespace std;
 
 class Character : virtual public Entity{
   protected:
+    sf::Vector2f _prevPosition;
     int _health;
     int _maxHealth;
     std::vector<sf::RectangleShape> healthBar;
@@ -13,7 +17,15 @@ class Character : virtual public Entity{
   public:
     Character() : Entity() {};
     bool isDead() const {return _health<=0;}
+
     virtual void display(Renderer& r) const =0;
+
+
+    void cancelMove() {
+      healthBar[0].setPosition(_prevPosition);
+      _hitbox.setPosition(_prevPosition);
+      _shape.setPosition(_prevPosition);
+    };
 
     void setHealthBar(){
       healthBar.push_back(sf::RectangleShape(sf::Vector2f(100.0f,10.0f)));
@@ -24,6 +36,13 @@ class Character : virtual public Entity{
       healthBar[0].setOutlineColor(sf::Color::White);
     }
 
+    void updatePosition(){
+      healthBar[0].setPosition(this->getCenter().x-50.0f,this->getCenter().y-_shape.getSize().y/2-20.0f);
+      _shape.setPosition(_position);
+      _hitbox.setPosition(_position);
+    }
+
+    virtual void move(sf::Event& event, sf::Time& dt, Map& map) =0;
     // ACCESSEURS
     const int& getHealth() const { return _health; }
     int& getHealth() { return _health; }

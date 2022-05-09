@@ -25,7 +25,7 @@ int main(){
 
   map->addEntity(j1);
   map->addEntity(f1);
-  map->addEntity(f2);
+  //map->addEntity(f2);
   sf::Clock deltaTime;
   sf::Time dt;
 
@@ -33,9 +33,18 @@ int main(){
   while(renderer->getIsOpen()){
     dt = deltaTime.restart();
     renderer->getWindow().pollEvent(event);
-    j1->move(event, dt);
-    f1->move(*j1,dt);
-    f2->move(*j1,dt);
+    for (auto it=map->getPlayerMap().begin(); it!=map->getPlayerMap().end(); ++it){
+      //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
+        (*it)->move(event, dt, *map);
+      //}
+    }
+    for (auto it=map->getFoesMap().begin(); it!=map->getFoesMap().end(); ++it){
+      //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
+        (*it)->move(event, dt, *map);
+      //}
+    }
+    std::cout<<j1->getX()<<"  "<<j1->getY()<<"\n";
+    std::cout<<f1->getX()<<"  "<<f1->getY()<<"\n\n\n";
     renderer->waitForExit(event);
     renderer->render(*map);
 
@@ -47,5 +56,6 @@ int main(){
   delete renderer;
   delete j1;
   delete f1;
+  delete f2;
   delete map;
 }

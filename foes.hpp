@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cmath>
 
+using namespace std;
+
 class Foes : virtual public Character{
   protected:
     float swiftnessX,swiftnessY;
@@ -17,7 +19,7 @@ class Foes : virtual public Character{
 
     void display(Renderer& r) const {r.displayEntity(*this);}
 
-    void move(Player j1, sf::Time dt);
+    void move(sf::Event& event, sf::Time& dt, Map& map);
 
     // ACCESSEURS
 
