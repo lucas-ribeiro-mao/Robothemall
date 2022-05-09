@@ -82,70 +82,59 @@ void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
   sf::Vector2f sizeBreak;
 
   _position.x+=deltaX;
-  _hitbox.setPosition(_position);
-  bool canGo=true;
-
-  for (auto player : map.getPlayerMap()){
-    if ((*this).getID()!=player->getID())
-      if ((*this).collision(*player)){
-        canGo=false;
-        posBreak=player->getCenter();
-        sizeBreak=player->getHitbox().getSize();
-        break;
-      }
-  }
-
-  if (canGo){
-    for (auto foes : map.getFoesMap()){
-      if ((*this).getID()!=foes->getID())
-        if ((*this).collision(*foes)){
-          canGo=false;
-          posBreak=foes->getCenter();
-          sizeBreak=foes->getHitbox().getSize();
-          break;
-        }
-    }
-  }
-
-  if(!canGo){
-    if(_position.x<posBreak.x)
-      _position.x = posBreak.x - sizeBreak.x/2 - _hitbox.getSize().x-1.0f;
-    _hitbox.setPosition(_position);
-  }
-    _prevPosition = _position;
-
-
-
-//check the Y deplacement
   _position.y+=deltaY;
   _hitbox.setPosition(_position);
-  canGo=true;
-
+  bool canGo=true;
   for (auto player : map.getPlayerMap()){
-    if ((*this).getID()!=player->getID())
-      if ((*this).collision(*player)){
-        canGo=false;
-        posBreak=player->getCenter();
-        sizeBreak=player->getHitbox().getSize();
-        break;
+    if ((*this).getID()!=player->getID() && canGo){
+      switch((*this).collision(*player)){
+        case 1 :
+          canGo=false;
+          _position.x=player->getPos().x + player->getHitbox().getSize().x;
+          break;
+        case 2 :
+          canGo=false;
+          _position.x=player->getPos().x - _hitbox.getSize().x;
+          break;
+        case 3 :
+          canGo=false;
+          _position.y=player->getPos().y + player->getHitbox().getSize().y;
+          break;
+        case 4 :
+          canGo=false;
+          _position.y=player->getPos().y - _hitbox.getSize().y;
+          break;
       }
+    }
   }
 
   if (canGo){
     for (auto foes : map.getFoesMap()){
-      if ((*this).getID()!=foes->getID())
-        if ((*this).collision(*foes)){
-          canGo=false;
-          posBreak=foes->getCenter();
-          sizeBreak=foes->getHitbox().getSize();
-          break;
+      if ((*this).getID()!=foes->getID() && canGo){
+        switch((*this).collision(*foes)){
+          case 1 :
+            canGo=false;
+            _position.x=foes->getPos().x + foes->getHitbox().getSize().x;
+            break;
+          case 2 :
+            canGo=false;
+            _position.x=foes->getPos().x - _hitbox.getSize().x;
+            break;
+          case 3 :
+            canGo=false;
+            _position.y=foes->getPos().y + foes->getHitbox().getSize().y;
+            break;
+          case 4 :
+            canGo=false;
+            _position.y=foes->getPos().y - _hitbox.getSize().y;
+            break;
         }
+      }
     }
   }
 
-  if(!canGo){
-    _position.y = posBreak.y - sizeBreak.y/2 - _hitbox.getSize().y-1.0f;
-  }
+
+
 
   updatePosition();
 
