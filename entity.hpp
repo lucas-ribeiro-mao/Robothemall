@@ -13,6 +13,7 @@ class Map;
 class Entity {
   protected :
     sf::Vector2f _position;
+    sf::Vector2f _velocity;
     sf::RectangleShape _hitbox;
     sf::RectangleShape _shape;
     std::string _type;
@@ -29,49 +30,50 @@ class Entity {
       sf::FloatRect thisBox = this->getHitbox().getGlobalBounds();
       sf::FloatRect otherBox = other.getHitbox().getGlobalBounds();
 
-      sf::Vector2f thisHitbox = this->getHitbox().getSize();
-      sf::Vector2f otherHitbox = other.getHitbox().getSize();
+      sf::FloatRect nextPosition;
+      nextPosition = thisBox;
+      nextPosition.left += _velocity.x;
+      nextPosition.top += _velocity.y;
 
-      sf::Vector2f thisPos = this->getPos();
-      sf::Vector2f otherPos = other.getPos();
 
-      if (thisBox.intersects(otherBox)){
+      int answer =0;
+
+      if (nextPosition.intersects(otherBox)){
         //right collision
-        if(thisPos.x<otherPos.x
-          && thisPos.x + thisHitbox.x < otherPos.x + otherHitbox.x
-          && thisPos.y < otherPos.y + otherHitbox.y
-          && thisPos.y + thisHitbox.y > otherPos.y
+        if(thisBox.left < otherBox.left
+          && thisBox.left + thisBox.width < otherBox.left + otherBox.width
+          && thisBox.top < otherBox.top + otherBox.height
+          && thisBox.top + thisBox.height > otherBox.top
         ){
-          return 2;
+          answer+= 2;
         }
         //left collision
-        else if(thisPos.x > otherPos.x
-          && thisPos.x + thisHitbox.x > otherPos.x + otherHitbox.x
-          && thisPos.y < otherPos.y + otherHitbox.y
-          && thisPos.y + thisHitbox.y > otherPos.y
+        else if(thisBox.left > otherBox.left
+          && thisBox.left + thisBox.width > otherBox.left + otherBox.width
+          && thisBox.top < otherBox.top + otherBox.height
+          && thisBox.top + thisBox.height > otherBox.top
         ){
-          return 1;
+          answer+= 1;
         }
-
 
         //Down collision
-        if(thisPos.y<otherPos.y
-          && thisPos.y + thisHitbox.y < otherPos.y + otherHitbox.y
-          && thisPos.x < otherPos.x + otherHitbox.x
-          && thisPos.x + thisHitbox.x > otherPos.x
+        if(thisBox.top < otherBox.top
+          && thisBox.top + thisBox.height < otherBox.top + otherBox.height
+          && thisBox.left < otherBox.left + otherBox.width
+          && thisBox.left + thisBox.width > otherBox.left
         ){
-          return 4;
+          answer+= 20;
         }
         //Up collision
-        else if(thisPos.y > otherPos.y
-          && thisPos.y + thisHitbox.y > otherPos.y + otherHitbox.y
-          && thisPos.x < otherPos.x + otherHitbox.x
-          && thisPos.x + thisHitbox.x > otherPos.x
+        else if(thisBox.top > otherBox.top
+          && thisBox.top + thisBox.height > otherBox.top + otherBox.height
+          && thisBox.left < otherBox.left + otherBox.width
+          && thisBox.left + thisBox.width > otherBox.left
         ){
-          return 3;
+          answer+= 10;
         }
       }
-      return 0;
+      return answer;
     }
 
     virtual void move(sf::Event& event, sf::Time& dt, Map& map) =0;

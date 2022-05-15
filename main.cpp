@@ -17,6 +17,9 @@ int main(){
   Player* j1= new Player(200,v1,100.0f);
   Foes* f1= new Foes(100,v2,75.0f);
   Foes* f2= new Foes(100,v3,50.0f);
+  // Foes* f3= new Foes(100,v3,50.0f);
+  // Foes* f4= new Foes(100,v3,50.0f);
+  // Foes* f5= new Foes(100,v3,50.0f);
   Renderer* renderer = new Renderer(800,600);
   renderer->getWindow().setVerticalSyncEnabled(false);
   // renderer->getWindow().setFramerateLimit(30);
@@ -25,7 +28,11 @@ int main(){
 
   map->addEntity(j1);
   map->addEntity(f1);
-  //map->addEntity(f2);
+  map->addEntity(f2);
+  // map->addEntity(f3);
+  // map->addEntity(f4);
+  // map->addEntity(f5);
+
   sf::Clock deltaTime;
   sf::Time dt;
 
@@ -43,8 +50,8 @@ int main(){
         (*it)->move(event, dt, *map);
       //}
     }
-    std::cout<<j1->getX()<<"  "<<j1->getY()<<"\n";
-    std::cout<<f1->getX()<<"  "<<f1->getY()<<"\n\n\n";
+    //std::cout<<j1->getX()<<"  "<<j1->getY()<<"\n";
+    //std::cout<<f1->getX()<<"  "<<f1->getY()<<"\n\n\n";
     renderer->waitForExit(event);
     renderer->render(*map);
 
@@ -57,5 +64,8 @@ int main(){
   delete j1;
   delete f1;
   delete f2;
+  // delete f3;
+  // delete f4;
+  // delete f5;
   delete map;
 }

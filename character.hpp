@@ -3,12 +3,14 @@
 #include "entity.hpp"
 #include <vector>
 #include <list>
+#include "map.hpp"
 
 using namespace std;
+class Foes;
+class Player;
 
 class Character : virtual public Entity{
   protected:
-    sf::Vector2f _prevPosition;
     int _health;
     int _maxHealth;
     std::vector<sf::RectangleShape> healthBar;
@@ -22,9 +24,9 @@ class Character : virtual public Entity{
 
 
     void cancelMove() {
-      healthBar[0].setPosition(_prevPosition);
-      _hitbox.setPosition(_prevPosition);
-      _shape.setPosition(_prevPosition);
+      healthBar[0].setPosition(_position);
+      _hitbox.setPosition(_position);
+      _shape.setPosition(_position);
     };
 
     void setHealthBar(){
@@ -49,6 +51,9 @@ class Character : virtual public Entity{
 
     const std::vector<sf::RectangleShape>& getHealthBar() const { return healthBar; }
     std::vector<sf::RectangleShape>& getHealthBar() { return healthBar; }
+
+    void checkCollision(Map& map);
+
 };
 
 #endif

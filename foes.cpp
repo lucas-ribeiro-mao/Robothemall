@@ -71,71 +71,14 @@ void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
 
 
 
-  _prevPosition=_position;
+  //_prevPosition=_position;
 
-  float deltaX = swiftnessX*dt.asSeconds();
-  float deltaY = swiftnessY*dt.asSeconds();
+  _velocity.x = swiftnessX*dt.asSeconds();
+  _velocity.y = swiftnessY*dt.asSeconds();
 
 //check the X position
-
-  sf::Vector2f posBreak;
-  sf::Vector2f sizeBreak;
-
-  _position.x+=deltaX;
-  _position.y+=deltaY;
-  _hitbox.setPosition(_position);
-  bool canGo=true;
-  for (auto player : map.getPlayerMap()){
-    if ((*this).getID()!=player->getID() && canGo){
-      switch((*this).collision(*player)){
-        case 1 :
-          canGo=false;
-          _position.x=player->getPos().x + player->getHitbox().getSize().x;
-          break;
-        case 2 :
-          canGo=false;
-          _position.x=player->getPos().x - _hitbox.getSize().x;
-          break;
-        case 3 :
-          canGo=false;
-          _position.y=player->getPos().y + player->getHitbox().getSize().y;
-          break;
-        case 4 :
-          canGo=false;
-          _position.y=player->getPos().y - _hitbox.getSize().y;
-          break;
-      }
-    }
-  }
-
-  if (canGo){
-    for (auto foes : map.getFoesMap()){
-      if ((*this).getID()!=foes->getID() && canGo){
-        switch((*this).collision(*foes)){
-          case 1 :
-            canGo=false;
-            _position.x=foes->getPos().x + foes->getHitbox().getSize().x;
-            break;
-          case 2 :
-            canGo=false;
-            _position.x=foes->getPos().x - _hitbox.getSize().x;
-            break;
-          case 3 :
-            canGo=false;
-            _position.y=foes->getPos().y + foes->getHitbox().getSize().y;
-            break;
-          case 4 :
-            canGo=false;
-            _position.y=foes->getPos().y - _hitbox.getSize().y;
-            break;
-        }
-      }
-    }
-  }
-
-
-
-
+  _position+=_velocity;
+  checkCollision(map);
   updatePosition();
 
 }
