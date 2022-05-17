@@ -4,7 +4,7 @@
 //#include "entity.hpp"
 #include <iostream>
 # include "foes.hpp"
-
+#include "bullet.hpp"
 
 int main(){
 
@@ -46,6 +46,11 @@ int main(){
       //}
     }
     for (auto it=map->getFoesMap().begin(); it!=map->getFoesMap().end(); ++it){
+      //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
+        (*it)->move(event, dt, *map);
+      //}
+    }
+    for (auto it=map->getBulletMap().begin(); it!=map->getBulletMap().end(); ++it){
       //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
         (*it)->move(event, dt, *map);
       //}

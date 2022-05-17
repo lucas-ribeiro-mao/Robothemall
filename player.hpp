@@ -13,7 +13,7 @@ using namespace std;
 
 class Player : virtual public Character{
   private :
-    bool up,right,down,left;
+    bool up,right,down,left, _shoot, _shootDelay;
     std::vector<sf::Keyboard::Key> command4Direction;
 
   public :
@@ -23,7 +23,8 @@ class Player : virtual public Character{
 
 
     void move(sf::Event& event, sf::Time& dt, Map& map);
-
+    void shoot(Map& map);
+    void shootDelay(){};
     // ACCESSEURS
 
 

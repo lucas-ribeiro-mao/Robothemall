@@ -7,7 +7,7 @@ void Character::checkCollision(Map& map){
   for (auto player : map.getPlayerMap()){
     if ((*this).getID()!=player->getID()){
       collide=(*this).collision(*player);
-      std::cout<<collide<<"\n";
+      //std::cout<<collide<<"\n";
       if(collide!=0){
         // right
         if(collide%10==1){

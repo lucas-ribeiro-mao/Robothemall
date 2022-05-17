@@ -10,6 +10,7 @@ using namespace std;
 class Renderer;
 class Player;
 class Foes;
+class Bullet;
 
 
 class Map{
@@ -18,7 +19,7 @@ class Map{
     std::list<Player*>* playerMap;
     std::list<Foes*>* foesMap;
     // std::list<Item*>* itemMap;
-    // std::list<Bullet*> bulletMap;
+    std::list<Bullet*>* bulletMap;
 
     public :
       Map();
@@ -29,11 +30,13 @@ class Map{
       void addEntity(Entity* entity);
       void addEntity(Player* entity);
       void addEntity(Foes* entity);
+      void addEntity(Bullet* entity);
       void deleteEntity(Entity* entity);
       void deleteEntity(Player* entity);
       void deleteEntity(Foes* entity);
+      void deleteEntity(Bullet* entity);
 
-
+      void addBullet(sf::Vector2f position);
 
       // ACCESSEURS
       const std::list<Entity*>& getEntityMap() const { return *entityMap; }
@@ -45,7 +48,8 @@ class Map{
       const std::list<Foes*>& getFoesMap() const { return *foesMap; }
       std::list<Foes*>& getFoesMap() { return *foesMap; }
 
-
+      const std::list<Bullet*>& getBulletMap() const { return *bulletMap; }
+      std::list<Bullet*>& getBulletMap() { return *bulletMap; }
 
 
 };

@@ -19,6 +19,8 @@ Player::Player(int health, sf::Vector2f position, float speed) : Character(){
 
   this->setHealthBar();
   _speed = speed;
+
+  _shootDelay=true;
 }
 
 
@@ -29,6 +31,7 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
       if(event.key.code == sf::Keyboard::Key::S) down=true;
       if(event.key.code == sf::Keyboard::Key::D) right=true;
       if(event.key.code == sf::Keyboard::Key::Q) left=true;
+      if(event.key.code == sf::Keyboard::Key::E) _shoot=true;
       break;
 
     case sf::Event::KeyReleased:
@@ -36,7 +39,13 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
       if(event.key.code == sf::Keyboard::Key::S) down = false;
       if(event.key.code == sf::Keyboard::Key::D) right = false;
       if(event.key.code == sf::Keyboard::Key::Q) left = false;
+      if(event.key.code == sf::Keyboard::Key::E) _shoot = false ;
       break;
+  }
+
+  if(_shoot && _shootDelay){
+    shoot(map);
+    shootDelay();
   }
 
   _velocity.x = 0.f;
@@ -67,4 +76,8 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
   _position += _velocity;
   checkCollision(map);
   updatePosition();
+}
+
+void Player::shoot(Map& map){
+  map.addBullet(getCenter());
 }

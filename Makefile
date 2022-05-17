@@ -12,8 +12,11 @@ EXEC=Robothemall
 
 all: $(EXEC)
 
-$(EXEC) : main.o player.o renderer.o map.o foes.o character.o
-	$(LD) $(LDFLAGS) player.o map.o main.o renderer.o foes.o character.o -o $(EXEC) $(LIBS)
+$(EXEC) : main.o player.o renderer.o map.o foes.o character.o bullet.o
+	$(LD) $(LDFLAGS) player.o map.o main.o renderer.o foes.o character.o bullet.o -o $(EXEC) $(LIBS)
+
+bullet.o : bullet.cpp bullet.hpp entity.hpp map.hpp renderer.hpp
+	$(CPP) $(CPPFLAGS) -c bullet.cpp
 
 character.o : character.cpp character.hpp entity.hpp map.hpp
 	$(CPP) $(CPPFLAGS) -c character.cpp
@@ -27,7 +30,7 @@ foes.o : foes.cpp foes.hpp renderer.hpp character.hpp player.hpp
 renderer.o : renderer.cpp renderer.hpp map.hpp renderer_interface.hpp
 	$(CPP) $(CPPFLAGS) -c renderer.cpp
 
-map.o : map.cpp entity.hpp map.hpp
+map.o : map.cpp entity.hpp map.hpp bullet.hpp
 	$(CPP) $(CPPFLAGS) -c map.cpp
 
 main.o: main.cpp renderer.hpp player.hpp map.hpp foes.hpp
