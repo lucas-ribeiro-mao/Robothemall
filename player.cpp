@@ -21,6 +21,8 @@ Player::Player(int health, sf::Vector2f position, float speed) : Character(){
   _speed = speed;
 
   _shootDelay=true;
+
+  gettimeofday(&previousShot, nullptr);
 }
 
 
@@ -43,9 +45,11 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
       break;
   }
 
-  if(_shoot && _shootDelay){
-    shoot(map);
+
+  if(_shoot ){
     shootDelay();
+    if (_shootDelay){
+      shoot(map);}
   }
 
   _velocity.x = 0.f;
@@ -80,4 +84,13 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
 
 void Player::shoot(Map& map){
   map.addBullet(getCenter());
+}
+
+void Player::shootDelay(){
+  gettimeofday(&currentShot, nullptr);
+  if (abs(previousShot.tv_usec / 1000 - currentShot.tv_usec / 1000)>200){
+    previousShot = currentShot;
+    _shootDelay = true;
+  }
+  else _shootDelay = false;
 }

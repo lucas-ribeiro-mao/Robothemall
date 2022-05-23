@@ -76,7 +76,7 @@ void Map::addBullet(sf::Vector2f position){
       if (sqrt(pow(direction.x-position.x,2)+pow(direction.y-position.y,2))>sqrt(pow(foesPos.x-position.x,2)+pow(foesPos.y-position.y,2)))
         direction = foesPos;
     }
-    std::cout<<direction.x<<" "<<direction.y<<"\n";
+    //std::cout<<direction.x<<" "<<direction.y<<"\n";
   }
   else direction = sf::Vector2f(1,0);
   Bullet *bullet = new Bullet(position, 500.0f, direction-position);

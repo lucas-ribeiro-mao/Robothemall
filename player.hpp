@@ -8,12 +8,16 @@
 #include <iostream>
 #include "foes.hpp"
 #include <vector>
+#include <sys/time.h>
+#include <ctime>
 
 using namespace std;
 
 class Player : virtual public Character{
   private :
     bool up,right,down,left, _shoot, _shootDelay;
+    struct timeval previousShot, currentShot;
+    sf::Clock timeCounter;
     std::vector<sf::Keyboard::Key> command4Direction;
 
   public :
@@ -24,7 +28,7 @@ class Player : virtual public Character{
 
     void move(sf::Event& event, sf::Time& dt, Map& map);
     void shoot(Map& map);
-    void shootDelay(){};
+    void shootDelay();
     // ACCESSEURS
 
 
