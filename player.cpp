@@ -21,8 +21,13 @@ Player::Player(int health, sf::Vector2f position, float speed, int id) : Charact
   _speed = speed;
 
   _shootDelay=true;
+  _isInvicible=false;
 
   gettimeofday(&previousShot, nullptr);
+  gettimeofday(&prevInvState, nullptr);
+
+  _shootRate = 200;
+  _invicibleDuration = 1500;
 
   if (id == 1){
     command4Direction.push_back(sf::Keyboard::Key::Z);
@@ -65,7 +70,8 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
   if(_shoot ){
     shootDelay();
     if (_shootDelay){
-      shoot(map);}
+      shoot(map);
+    }
   }
 
   _velocity.x = 0.f;
@@ -76,11 +82,11 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
     if (right || left) _velocity.y += -_speed*dt.asSeconds()/sqrt(2);
     else _velocity.y += -_speed*dt.asSeconds();
   }
-  if (down && _position.y< 600 - _hitbox.getSize().y){
+  if (down && _position.y< HEIGHT_WINDOW - _hitbox.getSize().y){
     if (right || left) _velocity.y += _speed*dt.asSeconds()/sqrt(2);
     else _velocity.y += _speed*dt.asSeconds();
   }
-  if (right && _position.x<800 - _hitbox.getSize().x){
+  if (right && _position.x< WIDTH_WINDOW - _hitbox.getSize().x){
     if (up || down) _velocity.x += _speed*dt.asSeconds()/sqrt(2);
     else _velocity.x += _speed*dt.asSeconds();
   }
@@ -109,4 +115,23 @@ void Player::shootDelay(){
     _shootDelay = true;
   }
   else _shootDelay = false;
+}
+
+
+void Player::getHit(Foes& foe, Map& map){
+  if (!_isInvicible)
+    {
+      _health-=10;
+      _isInvicible = true;
+    }
+}
+
+void Player::invincibleDelay(){
+  if(_isInvicible){
+    gettimeofday(&currInvState, nullptr);
+    if (abs(prevInvState.tv_usec / 1000 - currInvState.tv_usec / 1000)>_invicibleDuration){
+      prevInvState = currInvState;
+      _isInvicible = false;
+    }
+  }
 }
