@@ -7,6 +7,7 @@
 #include "renderer_interface.hpp"
 #include "renderer.hpp"
 #include <math.h>
+#include "foes.hpp"
 
 using namespace std;
 class Foes;
@@ -19,7 +20,7 @@ class Bullet : virtual public Entity{
 
   public:
     Bullet(sf::Vector2f position, float speed, sf::Vector2f direction);
-
+    ~Bullet() {};
 
     void display(Renderer& r) const{r.displayEntity(*this);}
 

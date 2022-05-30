@@ -27,62 +27,56 @@ void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
 
   // KNOWN AS PLAYER
   // TO IMPROVE FOR REAL
-  Player* j1 = (map.getPlayerMap().front());
-  cout<<"test\n";
-  Player* j2 = (map.getPlayerMap().back());
-  cout<<"test2\n";
-  distj1=sqrt(pow(j1->getX(),2)+pow(j1->getY(),2));
-  cout<<map.getPlayerMap().size()<<"test3\n";
-  distj2=sqrt(pow(j2->getX(),2)+pow(j2->getY(),2));
-  cout<<"test3\n";
-  sf::Vector2f playerCenter = j1->getCenter();
-  sf::Vector2f foeCenter = this->getCenter();
-  directionX = playerCenter.x - foeCenter.x;
-  directionY = playerCenter.y - foeCenter.y;
+  if(map.getPlayerMap().size() > 0){
+    Player* j1 = (map.getPlayerMap().front());
+    Player* j2 = (map.getPlayerMap().back());
 
-  cout<<"test4\n";
-  if(distj1<distj2){
-    directionX = j1->getX()-this->getX();
-    directionY = j1->getY()-this->getY();
-  }
+    float diffPlay1X = j1->getCenter().x-this->getCenter().x;
+    float diffPlay1Y = j1->getCenter().y-this->getCenter().y;
 
-  else {
-    directionX = j2->getX()-this->getX();
-    directionY = j2->getY()-this->getY();
-  }
-  cout<<"test4\n";
-/*
-  if (directionX<125.0f && directionX>0) directionX=125.0f;
-  else if (directionX>-125.0f && directionX<0) directionX=-125.0f;
-  else if (directionY<125.0f && directionY>0) directionY=125.0f;
-  else if (directionY>-125.0f && directionY<0) directionY=-125.0f;
+    float diffPlay2X = j2->getCenter().x-this->getCenter().x;
+    float diffPlay2Y = j2->getCenter().y-this->getCenter().y;
 
-  else if (directionX<-200.0f) directionX=-200.0f;
-  else if (directionX>200.0f) directionX=200.0f;
-  else if (directionY<-200.0f) directionY=-200.0f;
-  else if (directionY>200.0f) directionY=200.0f;
-*/
+    distj1=sqrt(pow(diffPlay1X,2)+pow(diffPlay1Y,2));
+    distj2=sqrt(pow(diffPlay2X,2)+pow(diffPlay2Y,2));
+
+    if(distj1<distj2){
+      directionX = diffPlay1X;
+      directionY = diffPlay1Y;
+    }
+
+    else {
+      directionX = diffPlay2X;
+      directionY = diffPlay2Y;
+    }
+
+
+    float _acceleration=0.2f;
+    if(directionX>0 && swiftnessX<_speed){ swiftnessX+=_acceleration;}
+    else if(directionX<0 && swiftnessX>-_speed){ swiftnessX-=_acceleration;}
+
+
+    if(directionY>0 && swiftnessY<_speed){ swiftnessY+=_acceleration;}
+    else if(directionY<0 && swiftnessY>-_speed){ swiftnessY-=_acceleration;}
 
 
 
-  float _acceleration=0.2f;
-  if(directionX>0 && swiftnessX<_speed){ swiftnessX+=_acceleration;}
-  else if(directionX<0 && swiftnessX>-_speed){ swiftnessX-=_acceleration;}
+    //_prevPosition=_position;
 
+    _velocity.x = swiftnessX*dt.asSeconds();
+    _velocity.y = swiftnessY*dt.asSeconds();
 
-  if(directionY>0 && swiftnessY<_speed){ swiftnessY+=_acceleration;}
-  else if(directionY<0 && swiftnessY>-_speed){ swiftnessY-=_acceleration;}
-
-
-
-  //_prevPosition=_position;
-
-  _velocity.x = swiftnessX*dt.asSeconds();
-  _velocity.y = swiftnessY*dt.asSeconds();
-
-//check the X position
-  _position+=_velocity;
+  //check the X position
+    _position+=_velocity;
+}
   checkCollision(map);
   updatePosition();
+  //updateHealth();
 
+}
+
+
+
+void Foes::getHit(Bullet& bullet, Map& map){
+  _health-=10;
 }

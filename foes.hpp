@@ -20,7 +20,7 @@ class Foes : virtual public Character{
     void display(Renderer& r) const {r.displayEntity(*this);}
 
     void move(sf::Event& event, sf::Time& dt, Map& map);
-
+    void getHit(Bullet& bullet, Map& map);
     // ACCESSEURS
 
 

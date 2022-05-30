@@ -37,6 +37,8 @@ class Map{
       void deleteEntity(Bullet* entity);
 
       void addBullet(sf::Vector2f position);
+      void checkBulletCollision();
+      void checkDeath();
 
       // ACCESSEURS
       const std::list<Entity*>& getEntityMap() const { return *entityMap; }
