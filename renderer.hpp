@@ -6,6 +6,9 @@
 #include "character.hpp"
 #include "map.hpp"
 
+#define WIDTH_WINDOW 1280
+#define HEIGHT_WINDOW 720
+
 using namespace std;
 
 class Renderer : public RendererInterface{

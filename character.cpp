@@ -42,6 +42,8 @@ void Character::checkCollision(Map& map){
     if ((*this).getID()!=foes->getID()){
       collide=(*this).collision(*foes);
       if(collide!=0){
+        if ((*this).getType() == "Player") (*this).getHit(*foes, map);
+
         if(collide%10==1){
 
           _position.x=foes->getPos().x + foes->getHitbox().getSize().x;

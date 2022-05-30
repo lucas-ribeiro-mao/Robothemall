@@ -16,6 +16,7 @@ class Character : virtual public Entity{
     std::vector<sf::RectangleShape> healthBar;
     float _speed;
 
+
   public:
     Character() : Entity() {};
     bool isDead() const {return _health<=0;}
@@ -25,21 +26,27 @@ class Character : virtual public Entity{
 
     void cancelMove() {
       healthBar[0].setPosition(_position);
+      healthBar[1].setPosition(_position);
       _hitbox.setPosition(_position);
       _shape.setPosition(_position);
     };
 
     void setHealthBar(){
       healthBar.push_back(sf::RectangleShape(sf::Vector2f(100.0f,10.0f)));
-      std::cout<<_shape.getSize().x<<"\n";
       healthBar[0].setPosition(this->getCenter().x-50.0f,this->getCenter().y-_shape.getSize().y/2-20.0f);
-      healthBar[0].setFillColor(sf::Color::Green);
+      healthBar[0].setFillColor(sf::Color::Red);
       healthBar[0].setOutlineThickness(2.0f);
       healthBar[0].setOutlineColor(sf::Color::White);
+
+      healthBar.push_back(sf::RectangleShape(sf::Vector2f(100.0f,10.0f)));
+      healthBar[1].setPosition(this->getCenter().x-50.0f,this->getCenter().y-_shape.getSize().y/2-20.0f);
+      healthBar[1].setFillColor(sf::Color::Green);
     }
 
     void updatePosition(){
       healthBar[0].setPosition(this->getCenter().x-50.0f,this->getCenter().y-_shape.getSize().y/2-20.0f);
+      healthBar[1].setPosition(this->getCenter().x-50.0f,this->getCenter().y-_shape.getSize().y/2-20.0f);
+      healthBar[1].setScale(((float)_health/(float)_maxHealth),1);
       _shape.setPosition(_position);
       _hitbox.setPosition(_position);
     }
@@ -53,6 +60,7 @@ class Character : virtual public Entity{
     std::vector<sf::RectangleShape>& getHealthBar() { return healthBar; }
 
     void checkCollision(Map& map);
+    void getHit(Foes& foes, Map& map) {};
 
 };
 

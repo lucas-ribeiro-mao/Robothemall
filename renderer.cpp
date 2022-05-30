@@ -7,7 +7,7 @@
 
 Renderer::Renderer(const int width, const int heigth)
 {
-    _window = new sf::RenderWindow(sf::VideoMode(width, heigth), "Fenêtre Jeu", sf::Style::Titlebar | sf::Style::Close);
+    _window = new sf::RenderWindow(sf::VideoMode(width, heigth), "Fenetre Jeu", sf::Style::Titlebar | sf::Style::Close);
     _window->clear(sf::Color::Black);
 }
 
@@ -53,4 +53,5 @@ void Renderer::displayEntity(const Character& entity) {
   //std::cout<<"bien ouej boss\n";
   this->getWindow().draw(entity.getShape());
   this->getWindow().draw(entity.getHealthBar()[0]);
+  this->getWindow().draw(entity.getHealthBar()[1]);
 }
