@@ -35,7 +35,7 @@ class Player : virtual public Character{
     void move(sf::Event& event, sf::Time& dt, Map& map);
     void shoot(Map& map);
     void shootDelay();
-    void getHit(Foes& foe, Map& mapfoes , Map& map);
+    void getHit(float dmg, Map& map);
     void invincibleDelay();
     // ACCESSEURS
 

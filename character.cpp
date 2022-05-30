@@ -8,7 +8,9 @@ void Character::checkCollision(Map& map){
     if ((*this).getID()!=player->getID()){
       collide=(*this).collision(*player);
       //std::cout<<collide<<"\n";
+
       if(collide!=0){
+        if ((*this).getType() == "Foes") (player)->getHit(10.f, map);
         // right
         if(collide%10==1){
           _velocity.x = 0.f;
@@ -42,7 +44,7 @@ void Character::checkCollision(Map& map){
     if ((*this).getID()!=foes->getID()){
       collide=(*this).collision(*foes);
       if(collide!=0){
-        if ((*this).getType() == "Player") (*this).getHit(*foes, map);
+        if ((*this).getType() == "Player") (*this).getHit(10.f, map);
 
         if(collide%10==1){
 

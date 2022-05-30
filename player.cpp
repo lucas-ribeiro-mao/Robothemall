@@ -102,6 +102,7 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
   _position += _velocity;
   checkCollision(map);
   updatePosition();
+  invincibleDelay();
 }
 
 void Player::shoot(Map& map){
@@ -118,18 +119,22 @@ void Player::shootDelay(){
 }
 
 
-void Player::getHit(Foes& foe, Map& map){
+void Player::getHit(float dmg, Map& map){
   if (!_isInvicible)
     {
-      _health-=10;
+      _health-=dmg;
       _isInvicible = true;
     }
 }
 
 void Player::invincibleDelay(){
   if(_isInvicible){
+
     gettimeofday(&currInvState, nullptr);
-    if (abs(prevInvState.tv_usec / 1000 - currInvState.tv_usec / 1000)>_invicibleDuration){
+    // cout<<prevInvState.tv_usec / 100<<"  "<< currInvState.tv_usec / 100<<"\n";
+
+    // cout<<abs(prevInvState.tv_usec / 100 - currInvState.tv_usec / 100)<<"\n";
+    if (abs(prevInvState.tv_usec / 100 - currInvState.tv_usec / 100)>_invicibleDuration){
       prevInvState = currInvState;
       _isInvicible = false;
     }

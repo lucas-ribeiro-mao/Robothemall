@@ -21,6 +21,8 @@ class Foes : virtual public Character{
 
     void move(sf::Event& event, sf::Time& dt, Map& map);
     void getHit(Bullet& bullet, Map& map);
+    void getHit(float dmg, Map& map){}
+
     // ACCESSEURS
 
 

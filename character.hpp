@@ -60,7 +60,7 @@ class Character : virtual public Entity{
     std::vector<sf::RectangleShape>& getHealthBar() { return healthBar; }
 
     void checkCollision(Map& map);
-    void getHit(Foes& foes, Map& map) {};
+    virtual void getHit(float dmg, Map& map) =0;
 
 };
 
