@@ -21,7 +21,7 @@ class Player : virtual public Character{
     std::vector<sf::Keyboard::Key> command4Direction;
 
   public :
-    Player(int health,sf::Vector2f position, float speed);
+    Player(int health,sf::Vector2f position, float speed, int id);
     //~Player();
     void display(Renderer& r) const { r.displayEntity(*this);}
 

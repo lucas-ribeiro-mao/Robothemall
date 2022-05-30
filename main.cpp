@@ -13,8 +13,10 @@ int main(){
   sf::Vector2f v1(400.0f,400.0f);
   sf::Vector2f v2(100.0f,100.0f);
   sf::Vector2f v3(100.0f,0.0f);
+  sf::Vector2f v4(500.0f,50.0f);
   Map* map = new Map();
-  Player* j1= new Player(200,v1,100.0f);
+  Player* j1= new Player(200,v1,100.0f,1);
+  Player* j2= new Player(200,v4,100.0f,2);
   Foes* f1= new Foes(100,v2,75.0f);
   Foes* f2= new Foes(100,v3,50.0f);
   // Foes* f3= new Foes(100,v3,50.0f);
@@ -27,6 +29,7 @@ int main(){
   std::cout << "Fermez la fenêtre pour continuer." <<  std::endl;
 
   map->addEntity(j1);
+  map->addEntity(j2);
   map->addEntity(f1);
   map->addEntity(f2);
   // map->addEntity(f3);
@@ -67,6 +70,7 @@ int main(){
 
   delete renderer;
   delete j1;
+  delete j2;
   delete f1;
   delete f2;
   // delete f3;
