@@ -2,8 +2,8 @@ CPP=g++
 LD=g++
 
 
-CPPFLAGS=-std=c++14
-LDFLAGS=-std=c++14
+CPPFLAGS= -g -std=c++14
+LDFLAGS=-g -std=c++14
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
 
 LIBSDIR= #rien pour le moment
@@ -42,3 +42,6 @@ doxy :
 
 clean :
 	rm -f *.o $(EXEC)
+
+check :
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./${EXEC}
