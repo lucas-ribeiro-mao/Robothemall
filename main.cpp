@@ -6,7 +6,48 @@
 # include "foes.hpp"
 #include "bullet.hpp"
 
+void ennemyGeneration(Map* map){
 
+  Player* j1 = map->getPlayerMap().front();
+  Player* j2 = map->getPlayerMap().back();
+
+  float r1,r2;
+
+  do{
+    r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/HEIGHT_WINDOW));
+  }  while (abs(j1->getCenter().x-r1)<SPAWN_PROTECTION && abs(j2->getCenter().x-r1)<SPAWN_PROTECTION);
+
+  do{
+    r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/WIDTH_WINDOW));
+  } while (abs(j1->getCenter().y-r2)<SPAWN_PROTECTION && abs(j2->getCenter().y-r2)<SPAWN_PROTECTION);
+
+
+  sf::Vector2f pos(r2,r1);
+  float speed = MIN_SPEED + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/(MAX_SPEED-MIN_SPEED)));
+  cout<<speed<<"\n";
+  Foes* f1= new Foes(100,pos,speed);
+  map->addEntity(f1);
+}
+
+void movement(Map* map,sf::Clock deltaTime,sf::Time dt,Renderer* renderer,sf::Event event){
+  dt = deltaTime.restart();
+  renderer->getWindow().pollEvent(event);
+  for (auto it=map->getPlayerMap().begin(); it!=map->getPlayerMap().end(); ++it){
+    //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
+      (*it)->move(event, dt, *map);
+    //}
+  }
+  for (auto it=map->getFoesMap().begin(); it!=map->getFoesMap().end(); ++it){
+    //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
+      (*it)->move(event, dt, *map);
+    //}
+  }
+  for (auto it=map->getBulletMap().begin(); it!=map->getBulletMap().end(); ++it){
+    //for (auto it=map->getEntityMap().begin(); it!=map->getEntityMap().end(); ++it){
+      (*it)->move(event, dt, *map);
+    //}
+  }
+}
 
 
 int main(){
@@ -28,7 +69,7 @@ int main(){
   Renderer* renderer = new Renderer(WIDTH_WINDOW,HEIGHT_WINDOW);
   renderer->getWindow().setVerticalSyncEnabled(false);
   // renderer->getWindow().setFramerateLimit(30);
-
+  srand (static_cast <unsigned> (time(0)));
   std::cout << "Fermez la fenêtre pour continuer." <<  std::endl;
 
   map->addEntity(j1);
@@ -44,6 +85,7 @@ int main(){
 
 
   while(renderer->getIsOpen()){
+    //movement(map,deltaTime,dt,renderer,event);
     dt = deltaTime.restart();
     renderer->getWindow().pollEvent(event);
     for (auto it=map->getPlayerMap().begin(); it!=map->getPlayerMap().end(); ++it){
@@ -66,6 +108,11 @@ int main(){
     //std::cout<<f1->getX()<<"  "<<f1->getY()<<"\n\n\n";
     renderer->waitForExit(event);
     renderer->render(*map);
+    if (map->getFoesMap().size()==0){
+      for (size_t i = 0; i < 5; i++) {
+        ennemyGeneration(map);
+      }
+    }
 
   }
 
