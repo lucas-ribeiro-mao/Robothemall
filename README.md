@@ -8,15 +8,15 @@ make
 ./Robothemall
 ```
 
-The commands for the first player are :
-*Up / Down : Z/S
-*Left / Right : Q/D
-*Shoot : SpaceBar
+The commands for the __first player__ are :
+- Up / Down : Z/S
+- Left / Right : Q/D
+- Shoot : SpaceBar
 
-For the second player :
-*Up / Down : I/K
-*Left / Right : J/L
-*Shoot : Enter
+For the __second player__ :
+- Up / Down : I/K
+- Left / Right : J/L
+- Shoot : Enter
 
 ## Work :
 
