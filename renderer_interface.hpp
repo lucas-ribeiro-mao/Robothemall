@@ -3,11 +3,15 @@
 
 #include <SFML/Graphics.hpp>
 
-class Entity;
+using namespace std;
 
+class Character;
+class Entity;
+class Map;
 
 class RendererInterface {
   public :
+    virtual ~RendererInterface() = default;
     virtual void displayEntity(const Entity& entity) =0;
 
 };

@@ -1,12 +1,13 @@
 #include "renderer_interface.hpp"
 #include "renderer.hpp"
 #include <iostream>
+#include <typeinfo>
 
 
 
 Renderer::Renderer(const int width, const int heigth)
 {
-    _window = new sf::RenderWindow(sf::VideoMode(width, heigth), "Fenêtre Jeu");
+    _window = new sf::RenderWindow(sf::VideoMode(width, heigth), "Robothemall", sf::Style::Titlebar | sf::Style::Close);
     _window->clear(sf::Color::Black);
 }
 
@@ -17,29 +18,40 @@ Renderer::~Renderer()
 
 
 
-void Renderer::waitForExit()
+void Renderer::waitForExit(sf::Event event)
 {
-    _window->display();
+  // check all the window's events that were triggered since the last iteration of the loop
+  switch (event.type){
+    // "close requested" event: we close the window
+    case sf::Event::Closed:
+      _window->close();
+      break;
+    case sf::Event::KeyPressed:
+      if( event.key.code == sf::Keyboard::Escape)
+        _window->close();
+      break;
+    default:
+      break;
+  }
 
-    std::cout << "Fermez la fenêtre pour continuer." <<  std::endl;
+}
 
-    while (_window->isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (_window->pollEvent(event))
-        {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                _window->close();
-        }
-    }
+//Display the map
+void Renderer::render(const Map& map){
+  _window->clear();
+  map.display((*this));
+  _window->display();
+}
+
+//display any entity on the map
+void Renderer::displayEntity(const Entity& entity) {
+  this->getWindow().draw(entity.getShape());
 }
 
 
-
-void Renderer::displayEntity(const Entity& entity) {
-  //TODO
+//display Character entity type
+void Renderer::displayEntity(const Character& entity) {
   this->getWindow().draw(entity.getShape());
-  getWindow().display();
+  this->getWindow().draw(*entity.getHealthBar()[0]);
+  this->getWindow().draw(*entity.getHealthBar()[1]);
 }
