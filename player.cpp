@@ -1,21 +1,31 @@
 #include "player.hpp"
 
 
-
-Player::Player(int health, sf::Vector2f position, float speed, int id) : Character(){
+Player::Player(int health, sf::Vector2f position, float speed, int id, sf::Texture* texture) : Character(){
   _health = health;
   _maxHealth = health;
   _position = position;
 
+
+  up = false;
+  down = false;
+  right = false;
+  left = false;
+  _shoot = false;
+
   _type="Player";
 
-  _hitbox = sf::RectangleShape(sf::Vector2f(50.0f,80.0f));
+  _hitbox = sf::RectangleShape(sf::Vector2f(24.0f,30.0f));
   _hitbox.setPosition(position);
   _hitbox.setFillColor(sf::Color::Red);
 
-  _shape = sf::RectangleShape(sf::Vector2f(50.0f,80.0f));
+  _shape = sf::RectangleShape(sf::Vector2f(32.0f,32.0f));
   _shape.setPosition(position);
+  _shape.setTexture(texture);
 
+  _textureSize = texture->getSize();
+  _textureSize.x /= 12;
+  _textureSize.y /= 8;
 
   this->setHealthBar();
   _speed = speed;
@@ -26,35 +36,56 @@ Player::Player(int health, sf::Vector2f position, float speed, int id) : Charact
   gettimeofday(&previousShot, nullptr);
   gettimeofday(&prevInvState, nullptr);
 
-  _shootRate = 200;
-  _invicibleDuration = 1500;
+  _shootRate = SHOOTRATE;
 
   if (id == 1){
     command4Direction.push_back(sf::Keyboard::Key::Z);
     command4Direction.push_back(sf::Keyboard::Key::S);
     command4Direction.push_back(sf::Keyboard::Key::D);
     command4Direction.push_back(sf::Keyboard::Key::Q);
-    command4Direction.push_back(sf::Keyboard::Key::E);
+    command4Direction.push_back(sf::Keyboard::Key::Space);
+    _placeTexture.x=0;
+    _placeTexture.y=0;
   }
   if (id == 2){
     command4Direction.push_back(sf::Keyboard::Key::I);
     command4Direction.push_back(sf::Keyboard::Key::K);
     command4Direction.push_back(sf::Keyboard::Key::L);
     command4Direction.push_back(sf::Keyboard::Key::J);
-    command4Direction.push_back(sf::Keyboard::Key::O);
+    command4Direction.push_back(sf::Keyboard::Key::Return);
+    _placeTexture.x=0;
+    _placeTexture.y=4;
   }
+
+  _shape.setTextureRect(sf::IntRect(_textureSize.x * _placeTexture.x, _textureSize.y * _placeTexture.y, _textureSize.x, _textureSize.y));
 
 }
 
 
 void Player::move(sf::Event& event, sf::Time& dt, Map& map){
+  int offsetTextureY = _placeTexture.y;
   switch(event.type){
     case sf::Event::KeyPressed:
-      if(event.key.code == command4Direction[0]) up=true;
-      if(event.key.code == command4Direction[1]) down=true;
-      if(event.key.code == command4Direction[2]) right=true;
-      if(event.key.code == command4Direction[3]) left=true;
+      if(event.key.code == command4Direction[0]){
+        up=true;
+        offsetTextureY = _placeTexture.y + 3;
+      }
+      if(event.key.code == command4Direction[1]) {
+        down=true;
+        offsetTextureY = _placeTexture.y + 0;
+      }
+      if(event.key.code == command4Direction[2]) {
+        right=true;
+        offsetTextureY = _placeTexture.y + 2;
+      }
+      if(event.key.code == command4Direction[3]) {
+        left=true;
+        offsetTextureY = _placeTexture.y + 1;
+      }
       if(event.key.code == command4Direction[4]) _shoot=true;
+
+      // if the player changes direction, sprite displayed in the correct position
+      _shape.setTextureRect(sf::IntRect(_textureSize.x * _placeTexture.x, _textureSize.y * offsetTextureY, _textureSize.x, _textureSize.y));
       break;
 
     case sf::Event::KeyReleased:
@@ -64,9 +95,12 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
       if(event.key.code == command4Direction[3]) left = false;
       if(event.key.code == command4Direction[4]) _shoot = false ;
       break;
+    default :
+      break;
   }
 
 
+// if the player choode to shoot
   if(_shoot ){
     shootDelay();
     if (_shootDelay){
@@ -77,6 +111,8 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
   _velocity.x = 0.f;
   _velocity.y = 0.f;
 
+
+// the player can not go outside of the screen
   if (up && _position.y>=0){
     //if the player is mooving along 2 directions divide the speed by sqrt(2) to stay at the same speed
     if (right || left) _velocity.y += -_speed*dt.asSeconds()/sqrt(2);
@@ -96,9 +132,6 @@ void Player::move(sf::Event& event, sf::Time& dt, Map& map){
   }
 
 
-
-
-  //_hitbox.move(_velocity.x, _velocity.y);
   _position += _velocity;
   checkCollision(map);
   updatePosition();
@@ -119,7 +152,8 @@ void Player::shootDelay(){
 }
 
 
-void Player::getHit(float dmg, Map& map){
+void Player::getHit(const float& dmg){
+  // if player is damaged, become invincible
   if (!_isInvicible)
     {
       _health-=dmg;
@@ -128,13 +162,10 @@ void Player::getHit(float dmg, Map& map){
 }
 
 void Player::invincibleDelay(){
+  //if invincible and the delay as passed, become vincible
   if(_isInvicible){
-
     gettimeofday(&currInvState, nullptr);
-    // cout<<prevInvState.tv_usec / 100<<"  "<< currInvState.tv_usec / 100<<"\n";
-
-    // cout<<abs(prevInvState.tv_usec / 100 - currInvState.tv_usec / 100)<<"\n";
-    if (abs(prevInvState.tv_usec / 100 - currInvState.tv_usec / 100)>_invicibleDuration){
+    if (abs(prevInvState.tv_usec / 1000 - currInvState.tv_usec / 1000)>_invicibleDuration){
       prevInvState = currInvState;
       _isInvicible = false;
     }

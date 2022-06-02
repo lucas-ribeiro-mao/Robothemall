@@ -1,6 +1,6 @@
 # include "foes.hpp"
 
-Foes::Foes( int health, sf::Vector2f position, float speed) : Character(){
+Foes::Foes( int health, sf::Vector2f position, float speed, sf::Texture* texture) : Character(){
   _health=health;
   _maxHealth=health;
   _position = position;
@@ -9,9 +9,15 @@ Foes::Foes( int health, sf::Vector2f position, float speed) : Character(){
   _hitbox = sf::RectangleShape(sf::Vector2f(30.0f,30.0f));
   _hitbox.setPosition(position);
 
-  _shape = sf::RectangleShape(sf::Vector2f(30.0f,30.0f));
+  _shape = sf::RectangleShape(sf::Vector2f(32.0f,32.0f));
   _shape.setPosition(position);
-  _shape.setFillColor(sf::Color::Green);
+  _shape.setTexture(texture);
+
+  _textureSize = texture->getSize();
+  _textureSize.x /= 12;
+  _textureSize.y /= 8;
+  _shape.setTextureRect(sf::IntRect(_textureSize.x * 7,_textureSize.y * 0, _textureSize.x, _textureSize.y));
+
 
 
   this->setHealthBar();
@@ -28,6 +34,9 @@ void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
   // KNOWN AS PLAYER
   // TO IMPROVE FOR REAL
   if(map.getPlayerMap().size() > 0){
+
+
+    //load the players from the map and go towards the clothest
     Player* j1 = (map.getPlayerMap().front());
     Player* j2 = (map.getPlayerMap().back());
 
@@ -51,7 +60,8 @@ void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
     }
 
 
-    float _acceleration=0.2f;
+    // in order to smoothen the deplacement, the foes mooves with an increasing acceleration
+    float _acceleration=5.0;
     if(directionX>0 && swiftnessX<_speed){ swiftnessX+=_acceleration;}
     else if(directionX<0 && swiftnessX>-_speed){ swiftnessX-=_acceleration;}
 
@@ -61,22 +71,24 @@ void Foes::move(sf::Event& event, sf::Time& dt, Map& map){
 
 
 
-    //_prevPosition=_position;
-
     _velocity.x = swiftnessX*dt.asSeconds();
     _velocity.y = swiftnessY*dt.asSeconds();
 
+    //set the sprite facing the fastest linear deplacement
+    if     (_velocity.y > 0 && abs(_velocity.y) > abs(_velocity.x))
+      _shape.setTextureRect(sf::IntRect(_textureSize.x * 7,_textureSize.y * 0, _textureSize.x, _textureSize.y));
+    else if(_velocity.y < 0 && abs(_velocity.y) > abs(_velocity.x))
+      _shape.setTextureRect(sf::IntRect(_textureSize.x * 7,_textureSize.y * 3, _textureSize.x, _textureSize.y));
+    else if(_velocity.x > 0 && abs(_velocity.y) < abs(_velocity.x))
+      _shape.setTextureRect(sf::IntRect(_textureSize.x * 7,_textureSize.y * 2, _textureSize.x, _textureSize.y));
+    else if(_velocity.x < 0 && abs(_velocity.y) < abs(_velocity.x))
+      _shape.setTextureRect(sf::IntRect(_textureSize.x * 7,_textureSize.y * 1, _textureSize.x, _textureSize.y));
+
+
   //check the X position
     _position+=_velocity;
-}
+  }
   checkCollision(map);
   updatePosition();
-  //updateHealth();
 
-}
-
-
-
-void Foes::getHit(Bullet& bullet, Map& map){
-  _health-=10;
 }

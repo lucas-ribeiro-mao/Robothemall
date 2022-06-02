@@ -8,13 +8,11 @@
 
 #define WIDTH_WINDOW 1280
 #define HEIGHT_WINDOW 720
-#define SPAWN_PROTECTION 100
-#define MIN_SPEED 50.0f
-#define MAX_SPEED 100.0f
+
 
 using namespace std;
 
-class Renderer : public RendererInterface{
+class Renderer : virtual public RendererInterface{
   protected :
     sf::RenderWindow* _window;
   public :
@@ -27,7 +25,7 @@ class Renderer : public RendererInterface{
     void render(const Map& map);
 
     void displayEntity(const Entity& entity);
-    void displayEntity(const Character& entity) ;
+    void displayEntity(const Character& entity);
 
 
     // ACCESSEURS

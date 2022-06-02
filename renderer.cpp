@@ -7,7 +7,7 @@
 
 Renderer::Renderer(const int width, const int heigth)
 {
-    _window = new sf::RenderWindow(sf::VideoMode(width, heigth), "Fenetre Jeu", sf::Style::Titlebar | sf::Style::Close);
+    _window = new sf::RenderWindow(sf::VideoMode(width, heigth), "Robothemall", sf::Style::Titlebar | sf::Style::Close);
     _window->clear(sf::Color::Black);
 }
 
@@ -30,28 +30,28 @@ void Renderer::waitForExit(sf::Event event)
       if( event.key.code == sf::Keyboard::Escape)
         _window->close();
       break;
+    default:
+      break;
   }
 
 }
 
+//Display the map
 void Renderer::render(const Map& map){
   _window->clear();
-  //std::cout<<map.getEntityMap().size();
   map.display((*this));
-
   _window->display();
 }
 
+//display any entity on the map
 void Renderer::displayEntity(const Entity& entity) {
-  //TODO
-  //std::cout<<"bien ouej boss\n";
   this->getWindow().draw(entity.getShape());
 }
 
+
+//display Character entity type
 void Renderer::displayEntity(const Character& entity) {
-  //TODO
-  //std::cout<<"bien ouej boss\n";
   this->getWindow().draw(entity.getShape());
-  this->getWindow().draw(entity.getHealthBar()[0]);
-  this->getWindow().draw(entity.getHealthBar()[1]);
+  this->getWindow().draw(*entity.getHealthBar()[0]);
+  this->getWindow().draw(*entity.getHealthBar()[1]);
 }

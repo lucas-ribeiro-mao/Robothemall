@@ -15,6 +15,8 @@ class Bullet;
 
 class Map{
   private :
+
+    // lists of all entities
     std::list<Entity*>* entityMap;
     std::list<Player*>* playerMap;
     std::list<Foes*>* foesMap;
@@ -25,19 +27,28 @@ class Map{
       Map();
       ~Map();
 
+      //display all the entity in the map
       void display(Renderer& r) const;
 
+      // add entities to their respective lists
       void addEntity(Entity* entity);
       void addEntity(Player* entity);
       void addEntity(Foes* entity);
       void addEntity(Bullet* entity);
+
+      // delete entities to their respective lists
       void deleteEntity(Entity* entity);
       void deleteEntity(Player* entity);
       void deleteEntity(Foes* entity);
       void deleteEntity(Bullet* entity);
 
+      //When players shoot add a bulet toward the clothest ennemy
       void addBullet(sf::Vector2f position);
+
+      //check if a bullet collide with a foe
       void checkBulletCollision();
+
+      // check if a character died
       void checkDeath();
 
       // ACCESSEURS

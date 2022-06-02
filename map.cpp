@@ -9,7 +9,6 @@ int Entity::serialID=0;
 
 Map::Map()
 {
-  entityMap=new std::list<Entity*>();
   playerMap=new std::list<Player*>();
   foesMap=new std::list<Foes*>();
   bulletMap=new std::list<Bullet*>();
@@ -17,14 +16,6 @@ Map::Map()
 
 Map::~Map()
 {
-  // auto it_m=entityMap->begin();
-  // do{
-  //   delete (*it_m);
-  //   ++it_m;
-  //
-  // }while (it_m!=entityMap->end());
-
-
   auto it_p=playerMap->begin();
   while (it_p!=playerMap->end()){
     delete (*it_p);
@@ -43,7 +34,6 @@ Map::~Map()
     ++it_b;
   }
 
-  delete entityMap;
   delete playerMap;
   delete foesMap;
   // for (int i = bulletMap->size()-1; i>=0;i--)
@@ -97,18 +87,22 @@ void Map::deleteEntity(Bullet* entity){
 
 void Map::addBullet(sf::Vector2f position){
   sf::Vector2f direction;
+  //Search for the clothest foe to shoot at him
   if (foesMap->size()>0){
     auto it = foesMap->begin();
     direction = (*it)->getCenter();
-    ++it;
-    for (it; it != foesMap->end();++it){
+    for (++it; it != foesMap->end();++it){
       sf::Vector2f foesPos = (*it)->getCenter();
+      // calcul of distance
       if (sqrt(pow(direction.x-position.x,2)+pow(direction.y-position.y,2))>sqrt(pow(foesPos.x-position.x,2)+pow(foesPos.y-position.y,2)))
         direction = foesPos;
     }
     //std::cout<<direction.x<<" "<<direction.y<<"\n";
   }
+  // if no ennemy shoot at the right
   else direction = sf::Vector2f(1,0);
+
+  //add the bullet to the map
   Bullet *bullet = new Bullet(position, 500.0f, direction-position);
   addEntity(bullet);
 
@@ -135,8 +129,7 @@ void Map::display(Renderer& r) const{
     }while (it_f!=foesMap->end());
   }
   if(bulletMap->size()>0){
-    auto it_b=bulletMap->begin();
-    for (it_b; it_b != bulletMap->end();++it_b){
+    for (auto it_b=bulletMap->begin(); it_b != bulletMap->end();++it_b){
       (*it_b)->display(r);
 
     }
@@ -153,7 +146,7 @@ void Map::checkBulletCollision(){
     for (auto foes : this->getFoesMap()){
       collide=(*bullet).collision(*foes);
       if(collide!=0){
-        (*foes).getHit(*bullet, (*this));
+        (*foes).getHit((*bullet).getDamage());
         bullet2Remove.push_back(bullet);
       }
     }

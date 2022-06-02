@@ -11,6 +11,7 @@ class Map;
 
 class RendererInterface {
   public :
+    virtual ~RendererInterface() = default;
     virtual void displayEntity(const Entity& entity) =0;
 
 };

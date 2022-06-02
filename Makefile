@@ -2,8 +2,8 @@ CPP=g++
 LD=g++
 
 
-CPPFLAGS= -g -std=c++14
-LDFLAGS=-g -std=c++14
+CPPFLAGS= -g -Wall -Wextra -std=c++14
+LDFLAGS=-g -Wall -Wextra -std=c++14
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
 
 LIBSDIR= #rien pour le moment
@@ -12,8 +12,10 @@ EXEC=Robothemall
 
 all: $(EXEC)
 
-$(EXEC) : main.o player.o renderer.o map.o foes.o character.o bullet.o
-	$(LD) $(LDFLAGS) player.o map.o main.o renderer.o foes.o character.o bullet.o -o $(EXEC) $(LIBS)
+$(EXEC) : main.o player.o renderer.o map.o foes.o character.o bullet.o game.o
+	$(LD) $(LDFLAGS) player.o game.o map.o main.o renderer.o foes.o character.o bullet.o -o $(EXEC) $(LIBS)
+
+
 
 bullet.o : bullet.cpp bullet.hpp entity.hpp map.hpp renderer.hpp
 	$(CPP) $(CPPFLAGS) -c bullet.cpp
@@ -33,7 +35,10 @@ renderer.o : renderer.cpp renderer.hpp map.hpp renderer_interface.hpp
 map.o : map.cpp entity.hpp map.hpp bullet.hpp
 	$(CPP) $(CPPFLAGS) -c map.cpp
 
-main.o: main.cpp renderer.hpp player.hpp map.hpp foes.hpp
+game.o : game.cpp renderer.hpp player.hpp map.hpp foes.hpp
+	$(CPP) $(CPPFLAGS) -c game.cpp
+
+main.o: main.cpp renderer.hpp player.hpp map.hpp foes.hpp game.hpp
 	$(CPP) $(CPPFLAGS) -c main.cpp
 
 #règles suplémentaires
