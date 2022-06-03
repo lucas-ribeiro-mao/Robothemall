@@ -16,11 +16,11 @@ class Game {
     // used for the key pressed
     sf::Event _event;
     // Map of the game
-    Map* _map;
+    Map* _map = nullptr;
 
-    Renderer* _renderer;
+    Renderer* _renderer = nullptr;
     //texture of the Characters
-    sf::Texture* _textureCharacters;
+    sf::Texture* _textureCharacters = nullptr;
 
   public :
     Game();

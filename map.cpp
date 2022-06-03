@@ -21,8 +21,8 @@ Map::~Map()
     delete (*it_p);
     ++it_p;
   }
-  auto it_f=foesMap->begin();
 
+  auto it_f=foesMap->begin();
   while (it_f!=foesMap->end()){
     delete (*it_f);
     ++it_f;
@@ -36,8 +36,6 @@ Map::~Map()
 
   delete playerMap;
   delete foesMap;
-  // for (int i = bulletMap->size()-1; i>=0;i--)
-  //   delete *bulletMap[i];
   delete bulletMap;
 }
 
@@ -79,9 +77,10 @@ void Map::deleteEntity(Foes* entity){
 }
 
 void Map::deleteEntity(Bullet* entity){
-  //entityMap->remove(entity);
-  bulletMap->remove(entity);
+  //entityMap->remove(entity);delete entity;
   delete entity;
+  bulletMap->remove(entity);
+
 }
 
 

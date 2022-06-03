@@ -4,7 +4,7 @@ LD=g++
 
 CPPFLAGS= -g -Wall -Wextra -std=c++14
 LDFLAGS=-g -Wall -Wextra -std=c++14
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system #-lsfml-network -lsfml-audio
 
 LIBSDIR= #rien pour le moment
 

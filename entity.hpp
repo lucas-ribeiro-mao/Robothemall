@@ -31,7 +31,7 @@ class Entity {
     static int serialID;
 
   public :
-    Entity(){_ID = nextID();}
+    Entity(){ _ID = nextID(); }
     virtual ~Entity() = default;
 
     //display the entity

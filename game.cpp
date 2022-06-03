@@ -1,9 +1,16 @@
 #include "game.hpp"
 
 Game::Game(){
-  _map = new Map();
+  _renderer = new Renderer(WIDTH_WINDOW,HEIGHT_WINDOW);
+  _renderer->getWindow().setVerticalSyncEnabled(false);
+  _renderer->getWindow().setFramerateLimit(60);
+  srand (static_cast <unsigned> (time(0)));
+  std::cout << "Close the window or press Esc. to close the game." <<  std::endl;
+
   _textureCharacters = new sf::Texture();
   _textureCharacters->loadFromFile("Sprites/robots.png");
+
+  _map = new Map();
 
   //Starting position of the two player
   sf::Vector2f v1(400.0f,400.0f);
@@ -12,22 +19,15 @@ Game::Game(){
   Player* j1= new Player(200,v1,100.0f,1,_textureCharacters);
   Player* j2= new Player(200,v2,100.0f,2,_textureCharacters);
 
-
-  _renderer = new Renderer(WIDTH_WINDOW,HEIGHT_WINDOW);
-  _renderer->getWindow().setVerticalSyncEnabled(false);
-  _renderer->getWindow().setFramerateLimit(60);
-  srand (static_cast <unsigned> (time(0)));
-  std::cout << "Close the window or press Esc. to close the game." <<  std::endl;
-
   //add the players to the map
   _map->addEntity(j1);
   _map->addEntity(j2);
 }
 
 Game::~Game(){
-  delete _renderer;
   delete _map;
   delete _textureCharacters;
+  delete _renderer;
 }
 
 

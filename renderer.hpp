@@ -14,7 +14,7 @@ using namespace std;
 
 class Renderer : virtual public RendererInterface{
   protected :
-    sf::RenderWindow* _window;
+    sf::RenderWindow* _window = nullptr;
   public :
 
     Renderer(const int width, const int heigth);

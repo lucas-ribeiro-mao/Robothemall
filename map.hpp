@@ -17,11 +17,11 @@ class Map{
   private :
 
     // lists of all entities
-    std::list<Entity*>* entityMap;
-    std::list<Player*>* playerMap;
-    std::list<Foes*>* foesMap;
+    std::list<Entity*>* entityMap = nullptr;
+    std::list<Player*>* playerMap = nullptr;
+    std::list<Foes*>* foesMap = nullptr;
     // std::list<Item*>* itemMap;
-    std::list<Bullet*>* bulletMap;
+    std::list<Bullet*>* bulletMap = nullptr;
 
     public :
       Map();
