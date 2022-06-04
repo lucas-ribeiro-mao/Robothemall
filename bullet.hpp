@@ -36,7 +36,7 @@ class Bullet : virtual public Entity{
       _shape.setPosition(_position);
       _hitbox.setPosition(_position);
     }
-    void checkCollision(Map& map);
+
     void move(sf::Event& event, sf::Time& dt, Map& map);
 
     // ACCESSEURS
