@@ -1,13 +1,20 @@
 # Robothemall
 
-## How to play
-Open your terminal and execute the command below
+### Authors : Léo LAVAL & Lucas RIBEIRO
+
+### Libraries : SFML2
+To install SFML2, you have to execute the command below :
 ```
-cd ~/github/Robothemall
-make
-./Robothemall
+sudo apt-get install libsfml-dev
 ```
 
+## How to play
+Le but principal du jeu est de survivre le plus longtemps.
+Ce jeu est prévu pour 2 joueurs en simultanés.
+A la fin de chaque manche, les joueurs recuperent 10% de leur PV max.
+Lorsqu'un joueur est mort, le deuxieme se retrouve seul jusqu'a la fin de la partie. (no respawn)
+
+### Commands
 The commands for the __first player__ are :
 - Up / Down : Z/S
 - Left / Right : Q/D
@@ -18,7 +25,24 @@ For the __second player__ :
 - Left / Right : J/L
 - Shoot : Enter
 
-## Work :
+## Installation
+If SFML2 is not installed, you have to install it otherwise you can not compile the game.
+
+Open your terminal and execute the command below
+- if you clone the game from github :
+```
+cd ~/github/Robothemall
+make
+./Robothemall
+```
+- else 
+```
+cd 'directory_path'
+make
+./Robothemall
+```
+
+## Our work:
 
 
 
@@ -29,5 +53,3 @@ For the __second player__ :
 ## Resources :
 Font for the game over : from fontspace.com, Super legend Boy.
 Sprite for the robot : RPG Maker sprite
-
-### Authors : Léo LAVAL & Lucas RIBEIRO
