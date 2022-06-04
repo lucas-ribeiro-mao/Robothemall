@@ -2,7 +2,8 @@
 
 ### Authors : Léo LAVAL & Lucas RIBEIRO
 
-### Libraries : SFML2
+## Libraries : 
+### SFML2
 To install SFML2, you have to execute the command below :
 ```
 sudo apt-get install libsfml-dev
