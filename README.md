@@ -48,7 +48,7 @@ make
 
 ## Bugs :
 - On our keyboards, the second player can not move and shoot if the key-shoot button is "O".
-- Random double free, we can not use valgrind to find it, because it's not often and valgrind is making the game lag...
+- Random segmentation fault, we can not use valgrind to find it, because it's not often and valgrind is making the game lag...
 
 ## Resources :
 Font for the game over : from fontspace.com, Super legend Boy.
