@@ -42,7 +42,7 @@ class Player : virtual public Character{
     //if the time between the previous shot is big enougth, _shootDelay=True
     void shootDelay();
     //remove health to the palyer
-    void getHit(const float& dmg);
+    void getHit(const int& dmg);
     //after getting hit the player is invincible for a few seconds : _isInvicible True
     void invincibleDelay();
     // ACCESSEURS

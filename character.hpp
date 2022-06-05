@@ -5,7 +5,7 @@
 #include <list>
 #include "map.hpp"
 
-#define DAMAGE 10.0f
+#define DAMAGE 10
 
 
 using namespace std;
@@ -63,7 +63,7 @@ class Character : virtual public Entity{
     void checkCollision(Map& map);
 
     //remove health from the character
-    virtual void getHit(const float& dmg) =0;
+    virtual void getHit(const int& dmg) =0;
 
     //give health to the Character
     void heal(const int& heal);

@@ -1,6 +1,6 @@
 #include "bullet.hpp"
 
-Bullet::Bullet(sf::Vector2f position, float speed, sf::Vector2f direction){
+Bullet::Bullet(sf::Vector2f position, float speed, sf::Vector2f direction) : Entity() {
   _speed = speed;
   _position=position;
   _damage = BULLET_DAMAGE;

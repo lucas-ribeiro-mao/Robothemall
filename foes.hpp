@@ -24,7 +24,7 @@ class Foes : virtual public Character{
 
     void move(sf::Event& event, sf::Time& dt, Map& map);
 
-    void getHit(const float& dmg){ _health -= dmg;}
+    void getHit(const int& dmg){ _health -= dmg;}
 
     // ACCESSEURS
 

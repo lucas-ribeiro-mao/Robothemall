@@ -152,7 +152,7 @@ void Player::shootDelay(){
 }
 
 
-void Player::getHit(const float& dmg){
+void Player::getHit(const int& dmg){
   // if player is damaged, become invincible
   if (!_isInvicible)
     {

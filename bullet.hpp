@@ -21,7 +21,7 @@ class Bullet : virtual public Entity{
     // speed of bullets
     float _speed;
     // damage done to foes
-    float _damage;
+    int _damage;
     // direction taken by the bullet
     sf::Vector2f _direction;
 
@@ -40,7 +40,7 @@ class Bullet : virtual public Entity{
     void move(sf::Event& event, sf::Time& dt, Map& map);
 
     // ACCESSEURS
-    const float& getDamage() const {return _damage;}
+    const int& getDamage() const {return _damage;}
 
 
 };

@@ -38,13 +38,13 @@ class Entity {
     virtual void display(Renderer& r) const =0;
 
     virtual void updatePosition() =0;
-    
+
 
     //Find if there is a collision between two entities : summ all of the numbers
     // 0 if not
     // 1 or 2 on the right or left side
     // 10 or 20 on the top or the bottom
-    int collision(const Entity& other){
+    int collision(const Entity& other) const{
       sf::FloatRect thisBox = this->getHitbox().getGlobalBounds();
       sf::FloatRect otherBox = other.getHitbox().getGlobalBounds();
 
