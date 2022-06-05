@@ -5,7 +5,6 @@
 #include "foes.hpp"
 #include "bullet.hpp"
 
-int Entity::serialID=0;
 
 Map::Map()
 {
@@ -138,15 +137,20 @@ void Map::display(Renderer& r) const{
 
 
 void Map::checkBulletCollision(){
-  int collide;
-  collide=0;
+  int collide = 0;
   std::list<Bullet*> bullet2Remove;
   for (auto bullet : this->getBulletMap()){
-    for (auto foes : this->getFoesMap()){
-      collide=(*bullet).collision(*foes);
-      if(collide!=0){
-        (*foes).getHit((*bullet).getDamage());
-        bullet2Remove.push_back(bullet);
+    sf::Vector2f center = (*bullet).getCenter();
+    if( center.x > WIDTH_WINDOW || center.x < 0 || center.y > HEIGHT_WINDOW || center.y < 0){
+      bullet2Remove.push_back(bullet);
+    }
+    else {
+      for (auto foes : this->getFoesMap()){
+        collide=(*bullet).collision(*foes);
+        if(collide!=0){
+          (*foes).getHit((*bullet).getDamage());
+          bullet2Remove.push_back(bullet);
+        }
       }
     }
   }
