@@ -60,19 +60,13 @@ tests_catch_player.o : tests_catch_player.cpp player.hpp renderer.hpp character.
 tests_catch_foes.o : tests_catch_foes.cpp foes.hpp catch.hpp
 	$(CPP) $(CPPFLAGS) -c $<
 
-# tests_catch_renderer.o : tests_catch_renderer.cpp renderer.hpp catch.hpp
-# 	$(CPP) $(CPPFLAGS) -c $<
-
 tests_catch_map.o : tests_catch_map.cpp map.hpp catch.hpp
-	$(CPP) $(CPPFLAGS) -c $<
-
-tests_catch_game.o : tests_catch_game.cpp game.hpp catch.hpp
 	$(CPP) $(CPPFLAGS) -c $<
 
 
 #règles suplémentaires
 clean :
-	rm -f *.o $(EXEC)
+	rm -f *.o $(EXEC) $(TEST)
 
 check :
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./${EXEC}
