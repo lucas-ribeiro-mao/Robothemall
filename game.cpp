@@ -95,7 +95,7 @@ void Game::update(){
         ennemyGeneration();
       }
       _cptRounds++;
-
+      healPlayers(20);
 
     }
 
