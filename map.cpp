@@ -150,6 +150,7 @@ void Map::checkBulletCollision(){
         if(collide!=0){
           (*foes).getHit((*bullet).getDamage());
           bullet2Remove.push_back(bullet);
+          break;
         }
       }
     }
