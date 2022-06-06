@@ -22,6 +22,9 @@ Game::Game(){
   //add the players to the map
   _map->addEntity(j1);
   _map->addEntity(j2);
+
+  initializeTexts();
+
 }
 
 Game::~Game(){
@@ -30,11 +33,39 @@ Game::~Game(){
   delete _renderer;
 }
 
+void Game::initializeTexts(){
+  // select the font
+  _font.loadFromFile("Fonts/SuperLegendBoy.ttf");
+  _gameOverTxt.setFont(_font);
+  _escTxt.setFont(_font);
+  _roundTxt.setFont(_font);
+
+  // set the string to display
+  _gameOverTxt.setString("Game over");
+  _escTxt.setString("Press Esc to quit.");
+
+  // set the character size
+  _gameOverTxt.setCharacterSize(100);
+  _escTxt.setCharacterSize(40);
+  _roundTxt.setCharacterSize(24);
+
+  // set the color
+  _gameOverTxt.setFillColor(sf::Color::Red);
+  _gameOverTxt.setStyle(sf::Text::Bold);
+  _gameOverTxt.setPosition(WIDTH_WINDOW/2-_gameOverTxt.getGlobalBounds().width/2,HEIGHT_WINDOW/2-_gameOverTxt.getGlobalBounds().height/2);
+
+  _escTxt.setStyle(sf::Text::Bold);
+  _escTxt.setFillColor(sf::Color(180,180,180,255));
+  _escTxt.setPosition(WIDTH_WINDOW/2-_escTxt.getGlobalBounds().width/2,HEIGHT_WINDOW/2-_escTxt.getGlobalBounds().height/2+_gameOverTxt.getGlobalBounds().height+20);
+
+  _roundTxt.setStyle(sf::Text::Bold);
+  _roundTxt.setFillColor(sf::Color(255,255,255,175));
+  _roundTxt.setPosition(10,10);
+}
 
 void Game::update(){
   sf::Clock deltaTime;
   sf::Time dt;
-  size_t nbFoePerRound=2;
   while(_renderer->getIsOpen()){
     dt = deltaTime.restart();
     _renderer->getWindow().pollEvent(_event);
@@ -54,21 +85,18 @@ void Game::update(){
     _map->checkDeath();
 
     //render the windows and check for exit
+
     _renderer->waitForExit(_event);
-    _renderer->render(*_map);
+    this->display();
 
     //recreate a set of ennemies (one more each time)
     if (_map->getFoesMap().size()==0){
-      for (size_t i = 0; i < nbFoePerRound; i++) {
+      for (unsigned int i = 0; i < (2 + _cptRounds); i++) {
         ennemyGeneration();
       }
-      nbFoePerRound++;
+      _cptRounds++;
 
-      for (auto it=_map->getPlayerMap().begin(); it!=_map->getPlayerMap().end(); ++it){
-        //Heal all the surviving player
-          (*it)->heal(20);
 
-      }
     }
 
     if (_map->getPlayerMap().size()==0){
@@ -102,36 +130,11 @@ void Game::ennemyGeneration(){
 }
 
 void Game::gameOver(){
-  sf::Font font;
-  sf::Text text;
-  sf::Text textEsc;
-
-
-  // select the font
-  font.loadFromFile("Fonts/SuperLegendBoy.ttf");
-  text.setFont(font);
-  textEsc.setFont(font);
-
-  // set the string to display
-  text.setString("Game over");
-  textEsc.setString("Press Esc to quit.");
-
-  // set the character size
-  text.setCharacterSize(100);
-  textEsc.setCharacterSize(40);
-
-  // set the color
-  text.setFillColor(sf::Color::Red);
-  text.setStyle(sf::Text::Bold);
-  text.setPosition(WIDTH_WINDOW/2-text.getGlobalBounds().width/2,HEIGHT_WINDOW/2-text.getGlobalBounds().height/2);
-
-  textEsc.setStyle(sf::Text::Bold);
-  textEsc.setFillColor(sf::Color(180,180,180,255));
-  textEsc.setPosition(WIDTH_WINDOW/2-textEsc.getGlobalBounds().width/2,HEIGHT_WINDOW/2-textEsc.getGlobalBounds().height/2+text.getGlobalBounds().height+20);
 
   _renderer->getWindow().clear();
-  _renderer->getWindow().draw(text);
-  _renderer->getWindow().draw(textEsc);
+  _renderer->getWindow().draw(_gameOverTxt);
+  _renderer->getWindow().draw(_escTxt);
+  _renderer->getWindow().draw(_roundTxt);
   _renderer->getWindow().display();
 
   while(_renderer->getIsOpen())
@@ -139,4 +142,25 @@ void Game::gameOver(){
     _renderer->getWindow().pollEvent(_event);
     _renderer->waitForExit(_event);
   }
+}
+
+void Game::healPlayers(int hp){
+  for (auto it=_map->getPlayerMap().begin(); it!=_map->getPlayerMap().end(); ++it){
+    //Heal all the surviving player
+      (*it)->heal(hp);
+  }
+}
+
+void Game::rounds(){
+  std::string text = "Round " + std::to_string(_cptRounds);
+
+  _roundTxt.setString(text);
+  _renderer->getWindow().draw(_roundTxt);
+}
+
+void Game::display(){
+  _renderer->clear();
+  rounds();
+  _renderer->render(*_map);
+  _renderer->display();
 }

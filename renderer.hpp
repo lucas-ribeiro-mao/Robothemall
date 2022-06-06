@@ -33,6 +33,9 @@ class Renderer : virtual public RendererInterface{
 
     sf::RenderWindow& getWindow() {return *_window;};
 
+    void clear(){ _window->clear(); }
+    void display(){ _window->display(); }
+
 };
 
 #endif

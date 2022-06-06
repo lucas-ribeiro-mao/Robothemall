@@ -22,9 +22,16 @@ class Game {
     //texture of the Characters
     sf::Texture* _textureCharacters = nullptr;
 
+    sf::Font _font;
+    sf::Text _gameOverTxt;
+    sf::Text _escTxt;
+    sf::Text _roundTxt;
+    unsigned int _cptRounds = 0;
+
   public :
     Game();
     ~Game();
+    void initializeTexts();
 
     // course of the game
     void update();
@@ -32,6 +39,12 @@ class Game {
     void ennemyGeneration();
     //display the game over screen
     void gameOver();
+    //heal each players at the end of a round
+    void healPlayers(int hp);
+    // add round number on screen
+    void rounds();
+    // all displays, map + texts
+    void display();
 };
 
 #endif

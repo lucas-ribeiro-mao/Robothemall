@@ -38,9 +38,9 @@ void Renderer::waitForExit(sf::Event event)
 
 //Display the map
 void Renderer::render(const Map& map){
-  _window->clear();
+
   map.display((*this));
-  _window->display();
+
 }
 
 //display any entity on the map
