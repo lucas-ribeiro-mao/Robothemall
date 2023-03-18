@@ -68,7 +68,7 @@ At first our collisions were not working correctly. Our entities always were tel
 We also learned that we couldn't use a list of abstract class as we wanted to do with our entities, because we could not use their functions.
 We also used Boolean statuses in each character classes that are really useful in games. But the Booleans that needs to turn back after a short delay were really challenging (in the class player: a player can not be hit twice in less than 300 ms and can shoot bullets one at a time).
 
-We are particularly proud of our debugging sessions during which we browsed many forums and websites in order to better understand how SFML works and to improve some features. We did theses sessions all along the project and hit really helped us. Now, we know that a graphic card is not reliable, and can have memory leaks by itself. Also, we know that valgrind only check freed blocks through the main function.
+We are particularly proud of our debugging sessions during which we browsed many forums and websites in order to better understand how SFML works and to improve some features. We did theses sessions all along the project and it really helped us. Now, we know that a graphic card is not reliable, and can have memory leaks by itself. Also, we know that valgrind only check freed blocks through the main function.
 
 
 ## Bugs :
